@@ -1,0 +1,180 @@
+
+using System;
+using Android.OS;
+using Android.Views;
+using SupportFragment = Android.Support.V4.App.Fragment;
+using Android.Widget;
+using Android.Graphics;
+using Uri = Android.Net.Uri;
+using Android.Content;
+using Java.IO;
+using Xamarin.Media;
+using Android.Util;
+using Android.Provider;
+using Android.Content.PM;
+using System.Collections.Generic;
+using Android.App;
+using BitmapHelper;
+
+namespace PomocZvieratam.Fragments
+{
+    public class Fragment1 : SupportFragment
+    {
+
+        ImageView photoImageView;
+       // MediaFile file;
+
+        public override void OnCreate(Bundle savedInstanceState)
+        {
+            base.OnCreate(savedInstanceState);
+
+        }
+
+
+        public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+        {
+            // Use this to return your custom view for this Fragment
+            // return inflater.Inflate(Resource.Layout.YourFragment, container, false);
+
+            View view = inflater.Inflate(Resource.Layout.Fragment1, container, false);
+
+            Button captureImage = view.FindViewById<Button>(Resource.Id.captureImage);
+            photoImageView = view.FindViewById<ImageView>(Resource.Id.photoImageView);
+
+            //captureImage.Click += TakePicture;
+            if (App.bitmap != null)
+            {
+                photoImageView.SetImageBitmap(App.bitmap);
+                App.bitmap = null;
+            }
+
+            if (IsThereAnAppToTakePicture())
+            {
+                CreateDirectoryForPicture();
+                captureImage.Click += TakePicture;
+
+            }
+
+            return view;
+        }
+
+        //        public async void TakePicture(object sender, EventArgs e)
+        //        {
+        //            string fileName = "";
+        //            Log.Info("ABCDDebug", "Take picture was hit");
+        //            var picker = new MediaPicker(this.Context);
+        //            if (!picker.IsCameraAvailable)
+        //                System.Console.WriteLine("No camera");
+        //            else
+        //            {
+        //                try
+        //                {
+        //                    //Fortate Date to "yyyy_MM_dd_HH_mm_ss" to be used as a file name
+        //                    Java.Text.SimpleDateFormat formatter = new Java.Text.SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
+        //                    Java.Util.Date now = new Java.Util.Date();
+        //                    fileName = formatter.Format(now) + ".jpg";
+        //                    System.Console.WriteLine("Cas pre subor:" + fileName);
+
+
+
+        //                   //Take photo async 
+        //#pragma warning disable CS0618 // Type or member is obsolete
+        //                    file = await picker.TakePhotoAsync(new StoreCameraMediaOptions
+        //                    {
+        //                        DefaultCamera = CameraDevice.Rear,
+        //                        Name = fileName,
+        //                        Directory = "MediaPickerSample"
+
+        //                    });
+        //#pragma warning restore CS0618 // Type or member is obsolete
+
+
+        //                    System.Console.WriteLine("Cesta k suboru je:" + file.Path);
+
+        //                    var stream = file.GetStream();
+        //                    Bitmap bitmap = BitmapFactory.DecodeFile(file.Path);
+        //                    photoImageView.SetImageBitmap(bitmap);
+        //                    //Bitmap bm = BitmapFactory.DecodeFile(@"/storage/emulated/0/Android/data/PomocZvieratam.PomocZvieratam/files/Pictures/MediaPickerSample/"+fileName);
+
+
+        //                }
+        //                catch (Android.Support.V4.OS.OperationCanceledException)
+        //                {
+        //                    System.Console.WriteLine("Canceled");
+        //                }
+        //                //using (var bitmap = BitmapFactory.DecodeFile(@"/storage/emulated/0/Android/data/PomocZvieratam.PomocZvieratam/files/Pictures/MediaPickerSample/" + fileName))
+        //                //    photoImageView.SetImageBitmap(bitmap);
+
+
+        //            }
+
+
+        //            //Method to create intent to take the picture by MediaStore.ActionImageCapture
+
+        //        }
+
+        public override void OnActivityResult(int requestCode, int resultCode, Intent data)
+        {
+            base.OnActivityResult(requestCode, resultCode, data);
+            System.Console.WriteLine(">>>>>>>>>>>>On activity result was called");
+            // Make it available in the gallery
+            Intent mediaScanIntent = new Intent(Intent.ActionMediaScannerScanFile);
+            Uri contentUri = Uri.FromFile(App._file);
+            mediaScanIntent.SetData(contentUri);
+            this.Context.SendBroadcast(mediaScanIntent);
+
+            // Display in ImageView. We will resize the bitmap to fit the dispaly
+            // Loading the full sized image will consume to much memory
+            // and cause the application to crash
+
+            int height = Resources.DisplayMetrics.HeightPixels;
+            int width = photoImageView.Height;
+            App.bitmap = App._file.Path.LoadAndResizeBitmap(width, height);
+            if (App.bitmap != null)
+            {
+                photoImageView.SetImageBitmap(App.bitmap);
+                App.bitmap = null;
+            }
+
+            // Dispose of the Java side Bitmap
+            GC.Collect();
+        }
+
+
+
+        private void TakePicture(object sender, System.EventArgs e)
+        {
+            Intent intent = new Intent(MediaStore.ActionImageCapture);
+            App._file = new File(App._dir, string.Format("myPhoto_{0}.jpg", Guid.NewGuid()));
+            intent.PutExtra(MediaStore.ExtraOutput, Uri.FromFile(App._file));
+            StartActivityForResult(intent, 0);
+        }
+
+        private bool IsThereAnAppToTakePicture()
+        {
+            Intent intent = new Intent(MediaStore.ActionImageCapture);
+            IList<ResolveInfo> availableActivities =
+                Activity.PackageManager.QueryIntentActivities(intent, PackageInfoFlags.MatchDefaultOnly);
+            return availableActivities != null && availableActivities.Count > 0;
+        }
+
+        private void CreateDirectoryForPicture()
+        {
+            App._dir = new File(
+                Android.OS.Environment.GetExternalStoragePublicDirectory(
+                    Android.OS.Environment.DirectoryPictures), "CameraAppDemo");
+            if (!App._dir.Mkdirs())
+            {
+                App._dir.Mkdirs();
+            }
+        }
+    }
+
+    public static class App
+        {
+            public static File _file;
+            public static File _dir;
+            public static Bitmap bitmap;
+        }
+    }
+
