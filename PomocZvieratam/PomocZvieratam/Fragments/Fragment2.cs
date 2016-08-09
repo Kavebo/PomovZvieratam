@@ -33,27 +33,33 @@ namespace PomocZvieratam.Fragments
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            
+
             checkGPSLocationService();
             InitializeLocationManager();
 
         }
-        
+
+        public override void OnActivityCreated(Bundle savedInstanceState)
+        {
+            base.OnActivityCreated(savedInstanceState);
+            iComm = (ICommunicator)Activity;
+        }
+
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             // Use this to return your custom view for this Fragment
-                var view = inflater.Inflate(Resource.Layout.MapFragment, null);
-                _locationText = view.FindViewById<TextView>(Resource.Id.location_text);
-                view.FindViewById<TextView>(Resource.Id.captureLocation).Click += AddressButton_OnClick;
-            
-                SetUpMap();
-                return view;
+            var view = inflater.Inflate(Resource.Layout.MapFragment, null);
+            _locationText = view.FindViewById<TextView>(Resource.Id.location_text);
+            view.FindViewById<TextView>(Resource.Id.captureLocation).Click += AddressButton_OnClick;
+
+            SetUpMap();
+            return view;
         }
 
 
         #region Capture location Activity
-        
+
         private void SetUpMap()
         {
             if (mMap == null)
@@ -70,7 +76,7 @@ namespace PomocZvieratam.Fragments
             mMap = googleMap;
             CameraUpdate camera = CameraUpdateFactory.NewLatLngZoom(latlng, 10);
             mMap.MoveCamera(camera);
-            
+
         }
 
         //Check if Location service is enabled , if not open GPS settings
@@ -159,15 +165,18 @@ namespace PomocZvieratam.Fragments
             {
                 _addressOfDevice = "Can't determine the current address. Try again in a few minutes.";
                 //_addressText.Text = "Can't determine the current address. Try again in a few minutes.";
-                iComm.SendLocation(string.Format("{0:f6}", _currentLocation.Latitude), string.Format("{0:f6}", _currentLocation.Longitude));
+                return;
             }
-
+            //Send actual position to main activity
+            iComm.SendLocation(string.Format("{0:f6}", _currentLocation.Latitude),
+                string.Format("{0:f6}", _currentLocation.Longitude));
+            
             // Show actual position
             LatLng latlng = new LatLng(_currentLocation.Latitude, _currentLocation.Longitude); // Kosice
-            CameraUpdate camera = CameraUpdateFactory.NewLatLngZoom(latlng, mMap.MaxZoomLevel-5);
+            CameraUpdate camera = CameraUpdateFactory.NewLatLngZoom(latlng, mMap.MaxZoomLevel - 5);
             mMap.MoveCamera(camera);
 
-            
+
 
             Address address = await ReverseGeocodeCurrentLocation();
             DisplayAddress(address);
@@ -208,14 +217,14 @@ namespace PomocZvieratam.Fragments
             else
             {
                 _addressOfDevice = "Unable to determine the address. Try again in a few minutes.";
-               // _addressText.Text = "Unable to determine the address. Try again in a few minutes.";
+                // _addressText.Text = "Unable to determine the address. Try again in a few minutes.";
             }
         }
 
 
         #endregion
 
-      
+
 
         //private void BtnNajdiPolohu_Click(object sender, System.EventArgs e)
         //{

@@ -1,6 +1,7 @@
 using Android.Content;
 using Android.OS;
 using Android.Views;
+using Android.Views.InputMethods;
 using Android.Widget;
 using System.Collections;
 using System.Collections.Generic;
@@ -24,6 +25,7 @@ namespace PomocZvieratam.Fragments
         public string _typeOfAnimal = "";
         public string _typeOfAction = "";
         public string _information = "";
+        private InputMethodManager imm;
 
 
         public override void OnCreate(Bundle savedInstanceState)
@@ -40,6 +42,7 @@ namespace PomocZvieratam.Fragments
 
             adapter = new ArrayAdapter(Activity, Android.Resource.Layout.SimpleSpinnerDropDownItem, arrayList);
 
+
             // Create your fragment here
         }
 
@@ -47,6 +50,11 @@ namespace PomocZvieratam.Fragments
         {
             base.OnActivityCreated(savedInstanceState);
             iComm = (ICommunicator)Activity;
+        }
+        public override void OnPause()
+        {
+            base.OnPause();
+            imm.HideSoftInputFromWindow(etPopis.WindowToken, 0);
         }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -64,7 +72,7 @@ namespace PomocZvieratam.Fragments
             etPopis = view.FindViewById<EditText>(Resource.Id.etPopis);
             spinnerAction = view.FindViewById<Spinner>(Resource.Id.spinnerAkcia);
 
-            etPopis.ClearFocus();
+            spinnerAction.RequestFocus();
             spinnerAction.SetSelection(0);
             spinnerAction.Adapter = adapter;
             spinnerAction.ItemSelected += SpinnerAction_ItemSelected;
@@ -74,9 +82,13 @@ namespace PomocZvieratam.Fragments
                 RadioButton checkedRadioButton = view.FindViewById<RadioButton>(rgTypeOfAction.CheckedRadioButtonId);
                 _typeOfAction = checkedRadioButton.Text;
                 iComm.SendInfo(_typeOfAction, _typeOfAnimal, _information);
+                imm.HideSoftInputFromWindow(etPopis.WindowToken, 0);
             };
-
             etPopis.AfterTextChanged += EtPopis_AfterTextChanged;
+
+            imm = (InputMethodManager)Activity.GetSystemService(Context.InputMethodService);
+            
+
             return view;
         }
 
@@ -84,14 +96,17 @@ namespace PomocZvieratam.Fragments
         {
             _information = etPopis.Text;
             iComm.SendInfo(_typeOfAction, _typeOfAnimal, _information);
+            
         }
-
-        
+       
         private void SpinnerAction_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
         {
             Toast.MakeText(Context, arrayList[e.Position].ToString(), ToastLength.Short).Show();
             _typeOfAnimal = arrayList[e.Position].ToString();
-            iComm.SendInfo(_typeOfAction, _typeOfAnimal, _information);
+            iComm.SendInfo(_typeOfAction, _typeOfAnimal, _information);         // Send info to class when something in spinner is selected
+            imm.HideSoftInputFromWindow(etPopis.WindowToken, 0);                //Hide keyboard when something in spinner is selected
         }
+
+
     }
 }

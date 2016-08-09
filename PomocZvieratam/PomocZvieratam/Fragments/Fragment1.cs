@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using Android.App;
 using BitmapHelper;
 using System.IO;
+using Android.Views.InputMethods;
 
 namespace PomocZvieratam.Fragments
 {
@@ -25,6 +26,7 @@ namespace PomocZvieratam.Fragments
         ImageView photoImageView;
         ICommunicator iComm;
         public byte[] fileEncoded;
+        //private InputMethodManager imm;
         // MediaFile file;
 
         public override void OnCreate(Bundle savedInstanceState)
@@ -145,7 +147,7 @@ namespace PomocZvieratam.Fragments
                 MemoryStream memStream = new MemoryStream();
                 App.bitmap.Compress(Bitmap.CompressFormat.Jpeg, 100, memStream);
                 fileEncoded = memStream.ToArray();
-
+                
                 iComm.SendPhoto(fileEncoded);           // send foto to class via Interface
                 //App.bitmap = null;
             }

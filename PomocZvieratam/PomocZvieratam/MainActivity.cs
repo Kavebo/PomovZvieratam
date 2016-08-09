@@ -59,7 +59,7 @@ namespace PomocZvieratam
                 Snackbar.Make(anchor, "Potvrdenie", Snackbar.LengthLong)
                 .SetAction("Odoslať", v =>
                 {
-                    //Do something here
+                    //Sent class to database
                     //Intent intent new Intent();
                     Console.WriteLine(">>>>>>>>>>> Clasa ma tieto udaje:");
                     Console.WriteLine(">>>>>>>>>>> TypeOfAction: " + requestedAction._typeOfAction);
@@ -67,7 +67,7 @@ namespace PomocZvieratam
                     Console.WriteLine(">>>>>>>>>>> Location: " + requestedAction._latitude +
                         " " + requestedAction._logntitude );
                     Console.WriteLine(">>>>>>>>>>> Popis: " + requestedAction._infoAboutAction);
-                    Console.WriteLine(">>>>>>>>>>> Image :" + requestedAction._imageFile);
+                    Console.WriteLine(">>>>>>>>>>> Image :" + requestedAction._imageFile.Length);
                 })
                 .Show();
             };
