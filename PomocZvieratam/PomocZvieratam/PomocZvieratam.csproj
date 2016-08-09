@@ -128,10 +128,11 @@
     <Compile Include="Fragments\Fragment1.cs" />
     <Compile Include="Fragments\Fragment2.cs" />
     <Compile Include="Fragments\Fragment3.cs" />
-    <Compile Include="InformationTogether.cs" />
+    <Compile Include="Fragments\ICommunicator.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="BitmapHelper.cs" />
     <Compile Include="MainApplication.cs" />
+    <Compile Include="RequestedAction.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

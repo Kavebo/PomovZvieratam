@@ -19,13 +19,21 @@ namespace PomocZvieratam.Fragments
 {
     public class Fragment2 : SupportFragment, ILocationListener, IOnMapReadyCallback
     {
-       
+
+        public GoogleMap mMap;
+        ICommunicator iComm;
+        static readonly string TAG = "X:" + typeof(Activity).Name;
+        //TextView _addressText;
+        Location _currentLocation;
+        LocationManager _locationManager;
+        TextView _locationText;
+        public string _addressOfDevice;
+        string _locationProvider;
+
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            // Create your fragment here
-
-
+            
             checkGPSLocationService();
             InitializeLocationManager();
 
@@ -35,34 +43,17 @@ namespace PomocZvieratam.Fragments
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             // Use this to return your custom view for this Fragment
-            // return inflater.Inflate(Resource.Layout.YourFragment, container, false);
-
-            
                 var view = inflater.Inflate(Resource.Layout.MapFragment, null);
                 _locationText = view.FindViewById<TextView>(Resource.Id.location_text);
                 view.FindViewById<TextView>(Resource.Id.captureLocation).Click += AddressButton_OnClick;
-
-
-                //Button btnNajdiPolohu = view.FindViewById<Button>(Resource.Id.btnNajdiPolohu);
-
-                //btnNajdiPolohu.Click += BtnNajdiPolohu_Click;
+            
                 SetUpMap();
                 return view;
-           
-            //_addressText = view.FindViewById<TextView>(Resource.Id.address_text);
-           
         }
 
-        public GoogleMap mMap;
-        #region Capture location Activity
-        static readonly string TAG = "X:" + typeof(Activity).Name;
-        TextView _addressText;
-        Location _currentLocation;
-        LocationManager _locationManager;
-        TextView _locationText;
-        public string _addressOfDevice;
-        string _locationProvider;
 
+        #region Capture location Activity
+        
         private void SetUpMap()
         {
             if (mMap == null)
@@ -168,7 +159,7 @@ namespace PomocZvieratam.Fragments
             {
                 _addressOfDevice = "Can't determine the current address. Try again in a few minutes.";
                 //_addressText.Text = "Can't determine the current address. Try again in a few minutes.";
-                return;
+                iComm.SendLocation(string.Format("{0:f6}", _currentLocation.Latitude), string.Format("{0:f6}", _currentLocation.Longitude));
             }
 
             // Show actual position

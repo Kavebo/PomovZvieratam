@@ -15,16 +15,21 @@ namespace PomocZvieratam.Fragments
         Spinner spinnerAction;
         ArrayAdapter adapter;
         ArrayList arrayList = new ArrayList();
+        RadioGroup rgTypeOfAction;
         RadioButton rbOdchytZvierat;
+        RadioButton rbZberMrtvychZvierat;
+        RadioButton rbDeratizacia;
         EditText etPopis;
-
-
+        ICommunicator iComm;
+        public string _typeOfAnimal = "";
+        public string _typeOfAction = "";
+        public string _information = "";
 
 
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            
+
             arrayList.Add("Spoloèenské zvieratá");
             arrayList.Add("Vo¾ne žijúce zvieratá");
             arrayList.Add("Hospodárske zvieratá");
@@ -33,9 +38,15 @@ namespace PomocZvieratam.Fragments
             arrayList.Add("Hlodavce");
             arrayList.Add("Iné");
 
-            adapter = new ArrayAdapter(Activity , Android.Resource.Layout.SimpleSpinnerDropDownItem, arrayList);
-            
+            adapter = new ArrayAdapter(Activity, Android.Resource.Layout.SimpleSpinnerDropDownItem, arrayList);
+
             // Create your fragment here
+        }
+
+        public override void OnActivityCreated(Bundle savedInstanceState)
+        {
+            base.OnActivityCreated(savedInstanceState);
+            iComm = (ICommunicator)Activity;
         }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -46,19 +57,41 @@ namespace PomocZvieratam.Fragments
             View view = inflater.Inflate(Resource.Layout.Fragment3, container, false);
             view.RequestFocus();
 
+            rgTypeOfAction = view.FindViewById<RadioGroup>(Resource.Id.rgTypeOfAction);
             rbOdchytZvierat = view.FindViewById<RadioButton>(Resource.Id.rbOdchytZvierat);
+            rbZberMrtvychZvierat = view.FindViewById<RadioButton>(Resource.Id.rbZberUhynutychZvierat);
+            rbDeratizacia = view.FindViewById<RadioButton>(Resource.Id.rbDeratizaciaZvierat);
             etPopis = view.FindViewById<EditText>(Resource.Id.etPopis);
             spinnerAction = view.FindViewById<Spinner>(Resource.Id.spinnerAkcia);
+
+            etPopis.ClearFocus();
             spinnerAction.SetSelection(0);
             spinnerAction.Adapter = adapter;
             spinnerAction.ItemSelected += SpinnerAction_ItemSelected;
 
+            rgTypeOfAction.CheckedChange += (object sender, RadioGroup.CheckedChangeEventArgs e) =>
+            {
+                RadioButton checkedRadioButton = view.FindViewById<RadioButton>(rgTypeOfAction.CheckedRadioButtonId);
+                _typeOfAction = checkedRadioButton.Text;
+                iComm.SendInfo(_typeOfAction, _typeOfAnimal, _information);
+            };
+
+            etPopis.AfterTextChanged += EtPopis_AfterTextChanged;
             return view;
         }
 
+        private void EtPopis_AfterTextChanged(object sender, Android.Text.AfterTextChangedEventArgs e)
+        {
+            _information = etPopis.Text;
+            iComm.SendInfo(_typeOfAction, _typeOfAnimal, _information);
+        }
+
+        
         private void SpinnerAction_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
         {
-            Toast.MakeText(this.Context, arrayList[e.Position].ToString(), ToastLength.Short).Show();
+            Toast.MakeText(Context, arrayList[e.Position].ToString(), ToastLength.Short).Show();
+            _typeOfAnimal = arrayList[e.Position].ToString();
+            iComm.SendInfo(_typeOfAction, _typeOfAnimal, _information);
         }
     }
 }

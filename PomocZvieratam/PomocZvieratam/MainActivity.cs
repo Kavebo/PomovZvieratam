@@ -13,18 +13,20 @@ using Android.Support.V4.App;
 using System.Collections.Generic;
 using Java.Lang;
 using PomocZvieratam.Fragments;
+using System;
 
 namespace PomocZvieratam
 {
     [Activity(Label = "PomocZvieratam", MainLauncher = true, Icon = "@drawable/icon", Theme = "@style/Theme.DesignDemo")]
-    public class MainActivity : AppCompatActivity
+    public class MainActivity : AppCompatActivity, ICommunicator
     {
         private DrawerLayout mDrawerLayout;
+        RequestedAction requestedAction = new RequestedAction();
 
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
-
+            
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.Main);
 
@@ -45,16 +47,12 @@ namespace PomocZvieratam
 
 
             TabLayout tabs = FindViewById<TabLayout>(Resource.Id.tabs);
-
-
             ViewPager viewPager = FindViewById<ViewPager>(Resource.Id.viewpager);
 
             SetUpViewPager(viewPager);
-
             tabs.SetupWithViewPager(viewPager);
 
             FloatingActionButton fab = FindViewById<FloatingActionButton>(Resource.Id.fab);
-
             fab.Click += (o, e) =>
             {
                 View anchor = o as View;
@@ -63,9 +61,18 @@ namespace PomocZvieratam
                 {
                     //Do something here
                     //Intent intent new Intent();
+                    Console.WriteLine(">>>>>>>>>>> Clasa ma tieto udaje:");
+                    Console.WriteLine(">>>>>>>>>>> TypeOfAction: " + requestedAction._typeOfAction);
+                    Console.WriteLine(">>>>>>>>>>> TypeOfAnimal: " + requestedAction._typeOfAnimal);
+                    Console.WriteLine(">>>>>>>>>>> Location: " + requestedAction._latitude +
+                        " " + requestedAction._logntitude );
+                    Console.WriteLine(">>>>>>>>>>> Popis: " + requestedAction._infoAboutAction);
+                    Console.WriteLine(">>>>>>>>>>> Image :" + requestedAction._imageFile);
                 })
                 .Show();
             };
+
+            
         }
 
         
@@ -103,7 +110,23 @@ namespace PomocZvieratam
             };
         }
 
-      
+        public void SendPhoto(byte[] _image)
+        {
+            requestedAction.SetImageSource(_image);
+            Console.WriteLine(">>>>>>>>>>> Image bol ulozeny do Class");
+        }
+
+        public void SendLocation(string _latitude, string _longtitude)
+        {
+            requestedAction.SetLocation(_latitude, _longtitude);
+        }
+
+        public void SendInfo(string _typeOfAction, string _typeOfAnimal, string _info)
+        {
+            requestedAction.SetTypeOfAction(_typeOfAction);
+            requestedAction.SetTypeOfAnimal(_typeOfAnimal);
+            requestedAction.SetInfoAboutAction(_info);
+        }
 
         private class TabAdapter : FragmentPagerAdapter
         {
@@ -137,7 +160,7 @@ namespace PomocZvieratam
             }
             public override ICharSequence GetPageTitleFormatted(int position)
             {
-                return new String(FragmentNames[position]);
+                return new Java.Lang.String(FragmentNames[position]);
             }
         }
     }

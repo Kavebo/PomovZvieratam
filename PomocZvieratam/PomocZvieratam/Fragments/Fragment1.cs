@@ -15,6 +15,7 @@ using Android.Content.PM;
 using System.Collections.Generic;
 using Android.App;
 using BitmapHelper;
+using System.IO;
 
 namespace PomocZvieratam.Fragments
 {
@@ -22,42 +23,49 @@ namespace PomocZvieratam.Fragments
     {
 
         ImageView photoImageView;
-       // MediaFile file;
+        ICommunicator iComm;
+        public byte[] fileEncoded;
+        // MediaFile file;
 
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-
         }
 
+        public override void OnActivityCreated(Bundle savedInstanceState)
+        {
+            base.OnActivityCreated(savedInstanceState);
+            iComm = (ICommunicator)Activity;
+        }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             // Use this to return your custom view for this Fragment
             // return inflater.Inflate(Resource.Layout.YourFragment, container, false);
+            if (savedInstanceState != null)
+            {
+                fileEncoded = savedInstanceState.GetByteArray("Image");
+                App.bitmap = BitmapFactory.DecodeByteArray(fileEncoded, 0, fileEncoded.Length);
+                photoImageView.SetImageBitmap(App.bitmap);
+                //App.bitmap = null;
+
+            }
 
             View view = inflater.Inflate(Resource.Layout.Fragment1, container, false);
 
             Button captureImage = view.FindViewById<Button>(Resource.Id.captureImage);
             photoImageView = view.FindViewById<ImageView>(Resource.Id.photoImageView);
-
-            //captureImage.Click += TakePicture;
-            if (App.bitmap != null)
-            {
-                photoImageView.SetImageBitmap(App.bitmap);
-                App.bitmap = null;
-            }
-
+            
+            // If there is App to take photo Take a Picture
             if (IsThereAnAppToTakePicture())
             {
                 CreateDirectoryForPicture();
                 captureImage.Click += TakePicture;
-
             }
-
             return view;
         }
 
+        #region Another methon to take a picture
         //        public async void TakePicture(object sender, EventArgs e)
         //        {
         //            string fileName = "";
@@ -112,6 +120,7 @@ namespace PomocZvieratam.Fragments
         //            //Method to create intent to take the picture by MediaStore.ActionImageCapture
 
         //        }
+        #endregion
 
         public override void OnActivityResult(int requestCode, int resultCode, Intent data)
         {
@@ -121,7 +130,7 @@ namespace PomocZvieratam.Fragments
             Intent mediaScanIntent = new Intent(Intent.ActionMediaScannerScanFile);
             Uri contentUri = Uri.FromFile(App._file);
             mediaScanIntent.SetData(contentUri);
-            this.Context.SendBroadcast(mediaScanIntent);
+            Context.SendBroadcast(mediaScanIntent);
 
             // Display in ImageView. We will resize the bitmap to fit the dispaly
             // Loading the full sized image will consume to much memory
@@ -132,24 +141,20 @@ namespace PomocZvieratam.Fragments
             App.bitmap = App._file.Path.LoadAndResizeBitmap(width, height);
             if (App.bitmap != null)
             {
-                photoImageView.SetImageBitmap(App.bitmap);
-                App.bitmap = null;
-            }
+                //photoImageView.SetImageBitmap(App.bitmap);
+                MemoryStream memStream = new MemoryStream();
+                App.bitmap.Compress(Bitmap.CompressFormat.Jpeg, 100, memStream);
+                fileEncoded = memStream.ToArray();
 
+                iComm.SendPhoto(fileEncoded);           // send foto to class via Interface
+                //App.bitmap = null;
+            }
             // Dispose of the Java side Bitmap
             GC.Collect();
+            
         }
-
-
-
-        private void TakePicture(object sender, System.EventArgs e)
-        {
-            Intent intent = new Intent(MediaStore.ActionImageCapture);
-            App._file = new File(App._dir, string.Format("myPhoto_{0}.jpg", Guid.NewGuid()));
-            intent.PutExtra(MediaStore.ExtraOutput, Uri.FromFile(App._file));
-            StartActivityForResult(intent, 0);
-        }
-
+        
+        // *************************** Picture taking Methods ******************************
         private bool IsThereAnAppToTakePicture()
         {
             Intent intent = new Intent(MediaStore.ActionImageCapture);
@@ -157,10 +162,17 @@ namespace PomocZvieratam.Fragments
                 Activity.PackageManager.QueryIntentActivities(intent, PackageInfoFlags.MatchDefaultOnly);
             return availableActivities != null && availableActivities.Count > 0;
         }
-
+        private void TakePicture(object sender, EventArgs e)
+        {
+            Intent intent = new Intent(MediaStore.ActionImageCapture);
+            App._file = new Java.IO.File(App._dir, string.Format("Anim_{0}.jpg", Guid.NewGuid()));
+            intent.PutExtra(MediaStore.ExtraOutput, Uri.FromFile(App._file));
+            StartActivityForResult(intent, 0);
+        }
+        
         private void CreateDirectoryForPicture()
         {
-            App._dir = new File(
+            App._dir = new Java.IO.File(
                 Android.OS.Environment.GetExternalStoragePublicDirectory(
                     Android.OS.Environment.DirectoryPictures), "CameraAppDemo");
             if (!App._dir.Mkdirs())
@@ -168,13 +180,37 @@ namespace PomocZvieratam.Fragments
                 App._dir.Mkdirs();
             }
         }
-    }
 
-    public static class App
+        public override void OnSaveInstanceState(Bundle outState)
         {
-            public static File _file;
-            public static File _dir;
-            public static Bitmap bitmap;
+            base.OnSaveInstanceState(outState);
+            outState.PutByteArray("Image", fileEncoded);
+        }
+        public override void OnPause()
+        {
+            base.OnPause();
+
+        }
+        public override void OnResume()
+        {
+            base.OnResume();
+            if (App.bitmap != null)
+            {
+                photoImageView.SetImageBitmap(App.bitmap);
+            }
+            System.Console.WriteLine(">>>>>>>>>>>>> Resume na fragment");
         }
     }
+
+
+
+    public static class App
+    {
+        public static Java.IO.File _file;
+        public static Java.IO.File _dir;
+        public static Bitmap bitmap;
+    }
+
+
+}
 
