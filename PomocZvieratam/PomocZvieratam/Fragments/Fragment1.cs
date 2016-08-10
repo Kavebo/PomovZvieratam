@@ -57,7 +57,16 @@ namespace PomocZvieratam.Fragments
 
             Button captureImage = view.FindViewById<Button>(Resource.Id.captureImage);
             photoImageView = view.FindViewById<ImageView>(Resource.Id.photoImageView);
-            
+
+            if (savedInstanceState != null)
+            {
+                fileEncoded = savedInstanceState.GetByteArray("Image");
+                App.bitmap = BitmapFactory.DecodeByteArray(fileEncoded, 0, fileEncoded.Length);
+                photoImageView.SetImageBitmap(App.bitmap);
+                //App.bitmap = null;
+
+            }
+
             // If there is App to take photo Take a Picture
             if (IsThereAnAppToTakePicture())
             {

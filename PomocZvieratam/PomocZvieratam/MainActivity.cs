@@ -14,6 +14,9 @@ using System.Collections.Generic;
 using Java.Lang;
 using PomocZvieratam.Fragments;
 using System;
+using System.Net;
+using System.Collections.Specialized;
+using System.Text;
 
 namespace PomocZvieratam
 {
@@ -61,13 +64,26 @@ namespace PomocZvieratam
                 {
                     //Sent class to database
                     //Intent intent new Intent();
-                    Console.WriteLine(">>>>>>>>>>> Clasa ma tieto udaje:");
-                    Console.WriteLine(">>>>>>>>>>> TypeOfAction: " + requestedAction._typeOfAction);
-                    Console.WriteLine(">>>>>>>>>>> TypeOfAnimal: " + requestedAction._typeOfAnimal);
-                    Console.WriteLine(">>>>>>>>>>> Location: " + requestedAction._latitude +
-                        " " + requestedAction._logntitude );
-                    Console.WriteLine(">>>>>>>>>>> Popis: " + requestedAction._infoAboutAction);
-                    Console.WriteLine(">>>>>>>>>>> Image :" + requestedAction._imageFile.Length);
+                    //Console.WriteLine(">>>>>>>>>>> Clasa ma tieto udaje:");
+                    //Console.WriteLine(">>>>>>>>>>> TypeOfAction: " + requestedAction._typeOfAction);
+                    //Console.WriteLine(">>>>>>>>>>> TypeOfAnimal: " + requestedAction._typeOfAnimal);
+                    //Console.WriteLine(">>>>>>>>>>> Location: " + requestedAction._latitude +
+                    //    " " + requestedAction._logntitude );
+                    //Console.WriteLine(">>>>>>>>>>> Popis: " + requestedAction._infoAboutAction);
+                    //Console.WriteLine(">>>>>>>>>>> Image :" + requestedAction._imageFile.Length);
+
+                    WebClient client = new WebClient();
+                    Uri uri = new Uri("http://myprestage.euweb.cz/CreateAction.php");
+                    NameValueCollection parameters = new NameValueCollection();
+
+                    parameters.Add("_typeOfAction", requestedAction._typeOfAction);
+                    parameters.Add("_typeOfAnimal", requestedAction._typeOfAnimal);
+                    parameters.Add("_latitude", requestedAction._latitude);
+                    parameters.Add("_longtitude", requestedAction._logntitude);
+                    parameters.Add("_infoAboutAction", requestedAction._infoAboutAction);
+
+                    client.UploadValuesAsync(uri, parameters);
+                    client.UploadValuesCompleted += Client_UploadValuesCompleted;
                 })
                 .Show();
             };
@@ -75,8 +91,21 @@ namespace PomocZvieratam
             
         }
 
-        
-            //********************************Adding fragment to ViewPager **********************************
+        private void Client_UploadValuesCompleted(object sender, UploadValuesCompletedEventArgs e)
+        {
+            RunOnUiThread(() =>
+            {
+                string id = Encoding.UTF8.GetString(e.Result);
+                int newID = 0;
+                int.TryParse(id, out newID);
+                Console.WriteLine(">>>>>>>>>>>>>>>>>>> new ID is: " + id);
+                
+            });
+            
+        }
+
+
+        //********************************Adding fragment to ViewPager **********************************
         private void SetUpViewPager(ViewPager viewPager)
         {
             TabAdapter adapter = new TabAdapter(SupportFragmentManager);
