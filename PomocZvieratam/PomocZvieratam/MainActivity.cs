@@ -17,6 +17,9 @@ using System;
 using System.Net;
 using System.Collections.Specialized;
 using System.Text;
+using Android.Widget;
+using PomocZvieratam.Fragments;
+using System.Net.NetworkInformation;
 
 namespace PomocZvieratam
 {
@@ -72,23 +75,51 @@ namespace PomocZvieratam
                     //Console.WriteLine(">>>>>>>>>>> Popis: " + requestedAction._infoAboutAction);
                     //Console.WriteLine(">>>>>>>>>>> Image :" + requestedAction._imageFile.Length);
 
-                    WebClient client = new WebClient();
-                    Uri uri = new Uri("http://myprestage.euweb.cz/CreateAction.php");
-                    NameValueCollection parameters = new NameValueCollection();
+                    
+                    
+                    if (requestedAction._logntitude == null || requestedAction._latitude == null)
+                        Toast.MakeText(this, "Vyplnte lokalitu", ToastLength.Short).Show();
+                    else if (requestedAction._imageFile == null)
+                        Toast.MakeText(this, "Pridajte fotku", ToastLength.Short).Show();
+                    else
+                    {
+                        WebClient client = new WebClient();
+                        Uri uri = new Uri("http://myprestage.euweb.cz/CreateAction.php");
+                        NameValueCollection parameters = new NameValueCollection();
 
-                    parameters.Add("_typeOfAction", requestedAction._typeOfAction);
-                    parameters.Add("_typeOfAnimal", requestedAction._typeOfAnimal);
-                    parameters.Add("_latitude", requestedAction._latitude);
-                    parameters.Add("_longtitude", requestedAction._logntitude);
-                    parameters.Add("_infoAboutAction", requestedAction._infoAboutAction);
+                        parameters.Add("_typeOfAction", requestedAction._typeOfAction);
+                        parameters.Add("_typeOfAnimal", requestedAction._typeOfAnimal);
+                        parameters.Add("_latitude", requestedAction._latitude);
+                        parameters.Add("_longtitude", requestedAction._logntitude);
+                        parameters.Add("_infoAboutAction", requestedAction._infoAboutAction);
 
-                    client.UploadValuesAsync(uri, parameters);
-                    client.UploadValuesCompleted += Client_UploadValuesCompleted;
+                        client.UploadValuesAsync(uri, parameters);
+                        client.UploadValuesCompleted += Client_UploadValuesCompleted;
+                    }
+                   
                 })
                 .Show();
             };
 
             
+        }
+
+        public bool IsInternetAvailable()
+        {
+            try
+            {
+                Ping myPing = new Ping();
+                string host = "google.com";
+                byte[] buffer = new byte[32];
+                int timeout = 1000;
+                PingOptions pingOptions = new PingOptions();
+                PingReply reply = myPing.Send(host, timeout, buffer, pingOptions);
+                return true;
+            }
+            catch (System.Exception e)
+            {
+                return false;
+            }
         }
 
         private void Client_UploadValuesCompleted(object sender, UploadValuesCompletedEventArgs e)
@@ -141,20 +172,21 @@ namespace PomocZvieratam
 
         public void SendPhoto(byte[] _image)
         {
-            requestedAction.SetImageSource(_image);
+            requestedAction._imageFile = (_image);
             Console.WriteLine(">>>>>>>>>>> Image bol ulozeny do Class");
         }
 
         public void SendLocation(string _latitude, string _longtitude)
         {
-            requestedAction.SetLocation(_latitude, _longtitude);
+            requestedAction._latitude = _latitude;// , _longtitude);
+            requestedAction._logntitude = _longtitude;
         }
 
         public void SendInfo(string _typeOfAction, string _typeOfAnimal, string _info)
         {
-            requestedAction.SetTypeOfAction(_typeOfAction);
-            requestedAction.SetTypeOfAnimal(_typeOfAnimal);
-            requestedAction.SetInfoAboutAction(_info);
+            requestedAction._typeOfAction = _typeOfAction;
+            requestedAction._typeOfAnimal = _typeOfAnimal;
+            requestedAction._infoAboutAction =_info;
         }
 
         private class TabAdapter : FragmentPagerAdapter
@@ -189,7 +221,15 @@ namespace PomocZvieratam
             }
             public override ICharSequence GetPageTitleFormatted(int position)
             {
-                return new Java.Lang.String(FragmentNames[position]);
+                try
+                {
+                    return new Java.Lang.String(FragmentNames[position]);
+                }
+                catch(System.Exception e)
+                {
+                    Console.WriteLine(">>>>>>>>>>>>>>>>>. nieco sa posralo pri Jave string:" + e.Message);
+                    return base.GetPageTitleFormatted(0);
+                }
             }
         }
     }

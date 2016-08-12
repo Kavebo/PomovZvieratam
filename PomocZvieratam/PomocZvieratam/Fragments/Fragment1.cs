@@ -7,16 +7,12 @@ using Android.Widget;
 using Android.Graphics;
 using Uri = Android.Net.Uri;
 using Android.Content;
-using Java.IO;
-using Xamarin.Media;
-using Android.Util;
 using Android.Provider;
 using Android.Content.PM;
 using System.Collections.Generic;
-using Android.App;
 using BitmapHelper;
 using System.IO;
-using Android.Views.InputMethods;
+using Square.Picasso;
 
 namespace PomocZvieratam.Fragments
 {
@@ -42,29 +38,23 @@ namespace PomocZvieratam.Fragments
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            // Use this to return your custom view for this Fragment
-            // return inflater.Inflate(Resource.Layout.YourFragment, container, false);
-            if (savedInstanceState != null)
-            {
-                fileEncoded = savedInstanceState.GetByteArray("Image");
-                App.bitmap = BitmapFactory.DecodeByteArray(fileEncoded, 0, fileEncoded.Length);
-                photoImageView.SetImageBitmap(App.bitmap);
-                //App.bitmap = null;
-
-            }
+            
 
             View view = inflater.Inflate(Resource.Layout.Fragment1, container, false);
 
             Button captureImage = view.FindViewById<Button>(Resource.Id.captureImage);
             photoImageView = view.FindViewById<ImageView>(Resource.Id.photoImageView);
 
+            // Use this to return your custom view for this Fragment
+            // return inflater.Inflate(Resource.Layout.YourFragment, container, false);
             if (savedInstanceState != null)
             {
                 fileEncoded = savedInstanceState.GetByteArray("Image");
                 App.bitmap = BitmapFactory.DecodeByteArray(fileEncoded, 0, fileEncoded.Length);
+                MemoryStream memStream = new MemoryStream();
                 photoImageView.SetImageBitmap(App.bitmap);
-                //App.bitmap = null;
-
+                App.bitmap = null;
+                savedInstanceState.Clear();
             }
 
             // If there is App to take photo Take a Picture
@@ -137,24 +127,25 @@ namespace PomocZvieratam.Fragments
         {
             base.OnActivityResult(requestCode, resultCode, data);
             System.Console.WriteLine(">>>>>>>>>>>>On activity result was called");
-            // Make it available in the gallery
-            Intent mediaScanIntent = new Intent(Intent.ActionMediaScannerScanFile);
-            Uri contentUri = Uri.FromFile(App._file);
-            mediaScanIntent.SetData(contentUri);
-            Context.SendBroadcast(mediaScanIntent);
+            //// Make it available in the gallery
+            //Intent mediaScanIntent = new Intent(Intent.ActionMediaScannerScanFile);
+            //Uri contentUri = Uri.FromFile(App._file);
+            //mediaScanIntent.SetData(contentUri);
+            //Context.SendBroadcast(mediaScanIntent);
 
             // Display in ImageView. We will resize the bitmap to fit the dispaly
             // Loading the full sized image will consume to much memory
             // and cause the application to crash
+
+          
 
             int height = Resources.DisplayMetrics.HeightPixels;
             int width = photoImageView.Height;
             App.bitmap = App._file.Path.LoadAndResizeBitmap(width, height);
             if (App.bitmap != null)
             {
-                //photoImageView.SetImageBitmap(App.bitmap);
                 MemoryStream memStream = new MemoryStream();
-                App.bitmap.Compress(Bitmap.CompressFormat.Jpeg, 100, memStream);
+                App.bitmap.Compress(Bitmap.CompressFormat.Jpeg, 60, memStream);
                 fileEncoded = memStream.ToArray();
                 
                 iComm.SendPhoto(fileEncoded);           // send foto to class via Interface
@@ -196,6 +187,7 @@ namespace PomocZvieratam.Fragments
         {
             base.OnSaveInstanceState(outState);
             outState.PutByteArray("Image", fileEncoded);
+            fileEncoded = null;
         }
         public override void OnPause()
         {
@@ -208,8 +200,9 @@ namespace PomocZvieratam.Fragments
             if (App.bitmap != null)
             {
                 photoImageView.SetImageBitmap(App.bitmap);
+                App.bitmap = null;
             }
-            System.Console.WriteLine(">>>>>>>>>>>>> Resume na fragment");
+            Console.WriteLine(">>>>>>>>>>>>> Resume na fragment");
         }
     }
 

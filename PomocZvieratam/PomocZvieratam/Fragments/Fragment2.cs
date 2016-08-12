@@ -14,6 +14,10 @@ using System.Threading.Tasks;
 using System.Text;
 using Android.Gms.Maps;
 using Android.Gms.Maps.Model;
+using Android.App.Usage;
+using System.Net.NetworkInformation;
+using Android.Support.Design.Widget;
+using System.Threading;
 
 namespace PomocZvieratam.Fragments
 {
@@ -26,7 +30,7 @@ namespace PomocZvieratam.Fragments
         //TextView _addressText;
         Location _currentLocation;
         LocationManager _locationManager;
-        TextView _locationText;
+        //TextView _locationText;
         public string _addressOfDevice;
         string _locationProvider;
 
@@ -50,11 +54,60 @@ namespace PomocZvieratam.Fragments
         {
             // Use this to return your custom view for this Fragment
             var view = inflater.Inflate(Resource.Layout.MapFragment, null);
-            _locationText = view.FindViewById<TextView>(Resource.Id.location_text);
-            view.FindViewById<TextView>(Resource.Id.captureLocation).Click += AddressButton_OnClick;
 
-            SetUpMap();
+            FloatingActionButton fabGps = view.FindViewById<FloatingActionButton>(Resource.Id.fabGps);
+            fabGps.Click += AddressButton_OnClick;
+
+            IsNetworkAccessable();
+            
             return view;
+        }
+        
+
+        public void IsNetworkAccessable()
+        {
+            try
+            {
+                if (IsInternetAvailable())
+                { SetUpMap(); }
+                else
+                {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(Context);
+                    builder.SetTitle("Chyba");
+                    builder.SetMessage("Internet nie je dostupný, chcete sa pripojit?.");
+                    builder.SetCancelable(false);
+                    builder.SetPositiveButton("Áno", delegate
+                    {
+                        var startNetworkIntent = new Intent(Android.Provider.Settings.ActionWifiSettings);
+                        StartActivity(startNetworkIntent);
+                        builder.SetNegativeButton("Nie", (s, e) =>
+                        { Toast.MakeText(Context, "Nedostupný internet, mapa sa nenaèíta", ToastLength.Short).Show(); });
+                    });
+                    builder.Show();
+                }
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(">>>>>>>>>>>> Chyba pri hladani internetu: " + e.Message);
+            }
+        }
+
+        public bool IsInternetAvailable()
+        {
+            try
+            {
+                Ping myPing = new Ping();
+                string host = "google.com";
+                byte[] buffer = new byte[32];
+                int timeout = 1000;
+                PingOptions pingOptions = new PingOptions();
+                PingReply reply = myPing.Send(host, timeout, buffer, pingOptions);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
 
@@ -85,8 +138,19 @@ namespace PomocZvieratam.Fragments
             LocationManager _locationManager = Activity.GetSystemService(Context.LocationService) as LocationManager;
             if (!_locationManager.IsProviderEnabled(LocationManager.GpsProvider))
             {
-                var startGPSintent = new Intent(Android.Provider.Settings.ActionLocationSourceSettings);
-                StartActivity(startGPSintent);
+                AlertDialog.Builder builder = new AlertDialog.Builder(Context);
+                builder.SetTitle("Chyba");
+                builder.SetMessage("GPS nie je povolná, chcete ju povoli?.");
+                //builder.SetCancelable(false);
+                builder.SetPositiveButton("Áno", delegate {
+                    var startGPSintent = new Intent(Android.Provider.Settings.ActionLocationSourceSettings);
+                    StartActivity(startGPSintent);
+                    builder.SetNegativeButton("Nie", (s, e) =>
+                    { Toast.MakeText(Context, "GPS nie je povolná, nájdite vašu polohu", ToastLength.Short).Show(); });
+                });
+                builder.Show();
+                //var startGPSintent = new Intent(Android.Provider.Settings.ActionLocationSourceSettings);
+                //StartActivity(startGPSintent);
                 return true;
             }
             else
@@ -118,17 +182,18 @@ namespace PomocZvieratam.Fragments
 
         public async void OnLocationChanged(Location location)
         {
-            _currentLocation = location;
-            if (_currentLocation == null)
+            try
             {
-                _locationText.Text = "Unable to determine your location. Try again in a short while.";
+                _currentLocation = location;
+                if (_currentLocation != null && IsInternetAvailable())
+                {
+                    Address address = await ReverseGeocodeCurrentLocation();
+                }
+                
             }
-            else
+            catch (Exception e)
             {
-                _locationText.Text = string.Format("{0:f6},{1:f6}", _currentLocation.Latitude, _currentLocation.Longitude);
-                Address address = await ReverseGeocodeCurrentLocation();
-                //DisplayAddress(address);
-
+                Console.WriteLine(">>>>>>>>>>>>> Chyba pri OnLocationChanged: " + e.Message);
             }
         }
 
@@ -148,6 +213,10 @@ namespace PomocZvieratam.Fragments
             {
                 _locationManager.RequestLocationUpdates(_locationProvider, 0, 0, this);
             }
+            if (IsInternetAvailable())
+            {
+                SetUpMap();
+            }
             Log.Debug(TAG, "Listening for location updates using " + _locationProvider + ".");
         }
 
@@ -155,7 +224,6 @@ namespace PomocZvieratam.Fragments
         {
             base.OnPause();
             _locationManager.RemoveUpdates(this);
-            Log.Debug(TAG, "No longer listening for location updates.");
         }
 
         // Button to set the actual Adress and put marker on it
@@ -223,15 +291,6 @@ namespace PomocZvieratam.Fragments
 
 
         #endregion
-
-
-
-        //private void BtnNajdiPolohu_Click(object sender, System.EventArgs e)
-        //{
-        //    var geoUri = Android.Net.Uri.Parse("geo:16.053200,08.20284?q=16.053200, 108.20284");
-        //    Intent mapIntent = new Intent(Intent.ActionView, geoUri);
-        //    StartActivity(mapIntent);
-        //}
 
 
     }

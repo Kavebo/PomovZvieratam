@@ -15,7 +15,7 @@
                 android:layout_height="50dp"
                 android:layout_centerInParent="false"
                 android:gravity="top"
-                android:text="S čím Vám pomôžeme?"
+                android:text="Ako Vám pomôžeme?"
                 android:textSize="30sp"
                 android:textColor="@android:color/holo_purple"
                 android:layout_gravity="top"
@@ -44,7 +44,7 @@
                 <RadioButton
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Deratizácia zvierat"
+                    android:text="Deratizácia"
                     android:id="@+id/rbDeratizaciaZvierat"
                     android:textSize="20sp" />
             </RadioGroup>

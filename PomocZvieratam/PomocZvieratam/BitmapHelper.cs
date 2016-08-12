@@ -35,35 +35,35 @@ namespace BitmapHelper
 
             Matrix mtx = new Matrix();
             ExifInterface exif = new ExifInterface(fileName);
-            var orientation = (Android.Media.Orientation)exif.GetAttributeInt(ExifInterface.TagOrientation, (int)Android.Media.Orientation.Undefined);
+            var orientation = (Orientation)exif.GetAttributeInt(ExifInterface.TagOrientation, (int)Orientation.Undefined);
 
             switch (orientation)
             {
-                case Android.Media.Orientation.Undefined: // Nexus 7 landscape...
+                case Orientation.Undefined: // Nexus 7 landscape...
                     break;
-                case Android.Media.Orientation.Normal: // landscape
+                case Orientation.Normal: // landscape
                     break;
-                case Android.Media.Orientation.FlipHorizontal:
+                case Orientation.FlipHorizontal:
                     break;
-                case Android.Media.Orientation.Rotate180:
+                case Orientation.Rotate180:
                     mtx.PreRotate(180);
                     resizedBitmap = Bitmap.CreateBitmap(resizedBitmap, 0, 0, resizedBitmap.Width, resizedBitmap.Height, mtx, false);
                     mtx.Dispose();
                     mtx = null;
                     break;
-                case Android.Media.Orientation.FlipVertical:
+                case Orientation.FlipVertical:
                     break;
-                case Android.Media.Orientation.Transpose:
+                case Orientation.Transpose:
                     break;
-                case Android.Media.Orientation.Rotate90: // portrait
+                case Orientation.Rotate90: // portrait
                     mtx.PreRotate(90);
                     resizedBitmap = Bitmap.CreateBitmap(resizedBitmap, 0, 0, resizedBitmap.Width, resizedBitmap.Height, mtx, false);
                     mtx.Dispose();
                     mtx = null;
                     break;
-                case Android.Media.Orientation.Transverse:
+                case Orientation.Transverse:
                     break;
-                case Android.Media.Orientation.Rotate270: // might need to flip horizontally too...
+                case Orientation.Rotate270: // might need to flip horizontally too...
                     mtx.PreRotate(270);
                     resizedBitmap = Bitmap.CreateBitmap(resizedBitmap, 0, 0, resizedBitmap.Width, resizedBitmap.Height, mtx, false);
                     mtx.Dispose();
@@ -75,11 +75,12 @@ namespace BitmapHelper
                     mtx.Dispose();
                     mtx = null;
                     break;
-                    #endregion
+                    
             }
 
             return resizedBitmap;
         }
+        #endregion
 
 
     }

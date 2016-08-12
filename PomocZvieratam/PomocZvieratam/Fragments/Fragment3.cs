@@ -4,7 +4,6 @@ using Android.Views;
 using Android.Views.InputMethods;
 using Android.Widget;
 using System.Collections;
-using System.Collections.Generic;
 using SupportFragment = Android.Support.V4.App.Fragment;
 
 
@@ -23,7 +22,7 @@ namespace PomocZvieratam.Fragments
         EditText etPopis;
         ICommunicator iComm;
         public string _typeOfAnimal = "";
-        public string _typeOfAction = "";
+        public string _typeOfAction = "Odchyt zvierat";
         public string _information = "";
         private InputMethodManager imm;
 
@@ -101,7 +100,7 @@ namespace PomocZvieratam.Fragments
        
         private void SpinnerAction_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
         {
-            Toast.MakeText(Context, arrayList[e.Position].ToString(), ToastLength.Short).Show();
+            //Toast.MakeText(Context, arrayList[e.Position].ToString(), ToastLength.Short).Show();
             _typeOfAnimal = arrayList[e.Position].ToString();
             iComm.SendInfo(_typeOfAction, _typeOfAnimal, _information);         // Send info to class when something in spinner is selected
             imm.HideSoftInputFromWindow(etPopis.WindowToken, 0);                //Hide keyboard when something in spinner is selected
