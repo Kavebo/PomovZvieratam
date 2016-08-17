@@ -18,6 +18,7 @@ using Android.App.Usage;
 using System.Net.NetworkInformation;
 using Android.Support.Design.Widget;
 using System.Threading;
+using Java.Util;
 
 namespace PomocZvieratam.Fragments
 {
@@ -56,13 +57,50 @@ namespace PomocZvieratam.Fragments
             var view = inflater.Inflate(Resource.Layout.MapFragment, null);
 
             FloatingActionButton fabGps = view.FindViewById<FloatingActionButton>(Resource.Id.fabGps);
-            fabGps.Click += AddressButton_OnClick;
+            fabGps.Click += fabGps_OnClick;
+
+
 
             IsNetworkAccessable();
-            
+
             return view;
         }
-        
+
+        async void fabGps_OnClick(object sender, EventArgs eventArgs)
+        {
+            if (_currentLocation == null)
+            {
+                Toast.MakeText(Context, "Poloha nie je k dispozícií, skúste neskôr", ToastLength.Short).Show();
+                _addressOfDevice = "Can't determine the current address. Try again in a few minutes.";
+                //_addressText.Text = "Can't determine the current address. Try again in a few minutes.";
+                return;
+            }
+            //Send actual position to main activity
+            iComm.SendLocation(string.Format("{0:f6}", _currentLocation.Latitude),
+                string.Format("{0:f6}", _currentLocation.Longitude));
+
+            // Show actual position
+            LatLng latlng = new LatLng(_currentLocation.Latitude, _currentLocation.Longitude); // Kosice
+            CameraUpdate camera = CameraUpdateFactory.NewLatLngZoom(latlng, mMap.MaxZoomLevel - 5);
+            mMap.MoveCamera(camera);
+
+
+
+            Address address = await ReverseGeocodeCurrentLocation();
+            DisplayAddress(address);
+
+            mMap.Clear();
+            MarkerOptions options = new MarkerOptions()
+                .SetPosition(latlng)
+                .SetTitle("Aktualna Poloha")
+                .SetSnippet(_addressOfDevice)
+                .Draggable(true);
+
+            mMap.AddMarker(options);
+        }
+
+
+
 
         public void IsNetworkAccessable()
         {
@@ -86,7 +124,7 @@ namespace PomocZvieratam.Fragments
                     builder.Show();
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(">>>>>>>>>>>> Chyba pri hladani internetu: " + e.Message);
             }
@@ -127,8 +165,35 @@ namespace PomocZvieratam.Fragments
 
             LatLng latlng = new LatLng(48.6776384, 21.002087); // Kosice
             mMap = googleMap;
-            CameraUpdate camera = CameraUpdateFactory.NewLatLngZoom(latlng, 10);
+            CameraUpdate camera = CameraUpdateFactory.NewLatLngZoom(latlng, 8);
             mMap.MoveCamera(camera);
+            mMap.MapLongClick += MMap_MapLongClick;
+        }
+
+        private void MMap_MapLongClick(object sender, GoogleMap.MapLongClickEventArgs e)
+        {
+            //Address address = await ReverseGeocodeCurrentLocation();
+            //DisplayAddress(address);
+            Geocoder geocoder;
+            IList<Address> addresses;
+            geocoder = new Geocoder(this.Context, Locale.Default);
+            _addressOfDevice = e.Point.ToString();
+            if (IsInternetAvailable())
+            {
+                addresses = geocoder.GetFromLocation(e.Point.Latitude, e.Point.Longitude, 1);
+                DisplayAddress(addresses[0]);
+                iComm.SendLocation(string.Format("{0:f6}", e.Point.Latitude),
+               string.Format("{0:f6}", e.Point.Longitude));
+
+            }
+            mMap.Clear();
+            MarkerOptions options = new MarkerOptions()
+                .SetPosition(e.Point)
+                .SetTitle("Aktualna Poloha")
+                .SetSnippet(_addressOfDevice)
+                .Draggable(true);
+
+            mMap.AddMarker(options);
 
         }
 
@@ -142,7 +207,8 @@ namespace PomocZvieratam.Fragments
                 builder.SetTitle("Chyba");
                 builder.SetMessage("GPS nie je povolná, chcete ju povoli?.");
                 //builder.SetCancelable(false);
-                builder.SetPositiveButton("Áno", delegate {
+                builder.SetPositiveButton("Áno", delegate
+                {
                     var startGPSintent = new Intent(Android.Provider.Settings.ActionLocationSourceSettings);
                     StartActivity(startGPSintent);
                     builder.SetNegativeButton("Nie", (s, e) =>
@@ -184,12 +250,13 @@ namespace PomocZvieratam.Fragments
         {
             try
             {
+                Address address;
                 _currentLocation = location;
                 if (_currentLocation != null && IsInternetAvailable())
                 {
-                    Address address = await ReverseGeocodeCurrentLocation();
+                    address = await ReverseGeocodeCurrentLocation();
                 }
-                
+
             }
             catch (Exception e)
             {
@@ -227,37 +294,7 @@ namespace PomocZvieratam.Fragments
         }
 
         // Button to set the actual Adress and put marker on it
-        async void AddressButton_OnClick(object sender, EventArgs eventArgs)
-        {
-            if (_currentLocation == null)
-            {
-                _addressOfDevice = "Can't determine the current address. Try again in a few minutes.";
-                //_addressText.Text = "Can't determine the current address. Try again in a few minutes.";
-                return;
-            }
-            //Send actual position to main activity
-            iComm.SendLocation(string.Format("{0:f6}", _currentLocation.Latitude),
-                string.Format("{0:f6}", _currentLocation.Longitude));
-            
-            // Show actual position
-            LatLng latlng = new LatLng(_currentLocation.Latitude, _currentLocation.Longitude); // Kosice
-            CameraUpdate camera = CameraUpdateFactory.NewLatLngZoom(latlng, mMap.MaxZoomLevel - 5);
-            mMap.MoveCamera(camera);
 
-
-
-            Address address = await ReverseGeocodeCurrentLocation();
-            DisplayAddress(address);
-
-            mMap.Clear();
-            MarkerOptions options = new MarkerOptions()
-                .SetPosition(latlng)
-                .SetTitle("Aktualna Poloha")
-                .SetSnippet(_addressOfDevice)
-                .Draggable(true);
-
-            mMap.AddMarker(options);
-        }
 
         async Task<Address> ReverseGeocodeCurrentLocation()
         {

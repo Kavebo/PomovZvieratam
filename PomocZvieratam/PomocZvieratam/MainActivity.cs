@@ -18,7 +18,6 @@ using System.Net;
 using System.Collections.Specialized;
 using System.Text;
 using Android.Widget;
-using PomocZvieratam.Fragments;
 using System.Net.NetworkInformation;
 
 namespace PomocZvieratam
@@ -28,11 +27,12 @@ namespace PomocZvieratam
     {
         private DrawerLayout mDrawerLayout;
         RequestedAction requestedAction = new RequestedAction();
+        ProgressDialog progressDialog;
 
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
-            
+
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.Main);
 
@@ -46,7 +46,7 @@ namespace PomocZvieratam
             mDrawerLayout = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
 
             NavigationView navigationView = FindViewById<NavigationView>(Resource.Id.nav_view);
-            if(navigationView != null)
+            if (navigationView != null)
             {
                 SetUpDrawerContent(navigationView);
             }
@@ -57,6 +57,8 @@ namespace PomocZvieratam
 
             SetUpViewPager(viewPager);
             tabs.SetupWithViewPager(viewPager);
+
+           
 
             FloatingActionButton fab = FindViewById<FloatingActionButton>(Resource.Id.fab);
             fab.Click += (o, e) =>
@@ -75,33 +77,43 @@ namespace PomocZvieratam
                     //Console.WriteLine(">>>>>>>>>>> Popis: " + requestedAction._infoAboutAction);
                     //Console.WriteLine(">>>>>>>>>>> Image :" + requestedAction._imageFile.Length);
 
-                    
-                    
-                    if (requestedAction._logntitude == null || requestedAction._latitude == null)
-                        Toast.MakeText(this, "Vyplnte lokalitu", ToastLength.Short).Show();
-                    else if (requestedAction._imageFile == null)
-                        Toast.MakeText(this, "Pridajte fotku", ToastLength.Short).Show();
-                    else
+
+                    if (IsInternetAvailable())
                     {
-                        WebClient client = new WebClient();
-                        Uri uri = new Uri("http://myprestage.euweb.cz/CreateAction.php");
-                        NameValueCollection parameters = new NameValueCollection();
+                        if (requestedAction._logntitude == null || requestedAction._latitude == null)
+                            Toast.MakeText(this, "Vyplnte lokalitu", ToastLength.Short).Show();
+                        else if (requestedAction._imageFile == null)
+                            Toast.MakeText(this, "Pridajte fotku", ToastLength.Short).Show();
+                        else
+                        {
+                            WebClient client = new WebClient();
+                            Uri uri = new Uri("http://myprestage.euweb.cz/CreateAction.php");
+                            //Uri uri = new Uri("http://127.0.0.1/CreateAction.php");
+                            NameValueCollection parameters = new NameValueCollection();
 
-                        parameters.Add("_typeOfAction", requestedAction._typeOfAction);
-                        parameters.Add("_typeOfAnimal", requestedAction._typeOfAnimal);
-                        parameters.Add("_latitude", requestedAction._latitude);
-                        parameters.Add("_longtitude", requestedAction._logntitude);
-                        parameters.Add("_infoAboutAction", requestedAction._infoAboutAction);
+                            parameters.Add("_typeOfAction", requestedAction._typeOfAction);
+                            parameters.Add("_typeOfAnimal", requestedAction._typeOfAnimal);
+                            parameters.Add("_latitude", requestedAction._latitude.Replace(',','.'));
+                            parameters.Add("_longtitude", requestedAction._logntitude.Replace(',', '.'));
+                            parameters.Add("_infoAboutAction", requestedAction._infoAboutAction);
+                            parameters.Add("_imageFile", Convert.ToBase64String(requestedAction._imageFile));
 
-                        client.UploadValuesAsync(uri, parameters);
-                        client.UploadValuesCompleted += Client_UploadValuesCompleted;
+                            client.UploadValuesAsync(uri, parameters);
+                            client.UploadValuesCompleted += Client_UploadValuesCompleted;
+                            progressDialog = new ProgressDialog(this);
+                            progressDialog.SetMessage("Nahrávanie...");
+                            progressDialog.SetProgressStyle(ProgressDialogStyle.Spinner);
+                            progressDialog.Progress =0;
+                            progressDialog.Max = 100;
+                            progressDialog.Show();
+                        }
                     }
-                   
                 })
+
                 .Show();
             };
 
-            
+
         }
 
         public bool IsInternetAvailable()
@@ -118,6 +130,7 @@ namespace PomocZvieratam
             }
             catch (System.Exception e)
             {
+                Toast.MakeText(this, "Internet nie je k dispozícií", ToastLength.Short).Show();
                 return false;
             }
         }
@@ -126,13 +139,14 @@ namespace PomocZvieratam
         {
             RunOnUiThread(() =>
             {
-                string id = Encoding.UTF8.GetString(e.Result);
+                //string id = Encoding.UTF8.GetString(e.Result);
                 int newID = 0;
-                int.TryParse(id, out newID);
-                Console.WriteLine(">>>>>>>>>>>>>>>>>>> new ID is: " + id);
-                
+                //int.TryParse(id, out newID);
+                //Console.WriteLine(">>>>>>>>>>>>>>>>>>> Message som MYSQL: " + id);
+                progressDialog.Dismiss();
+
             });
-            
+
         }
 
 
@@ -143,7 +157,7 @@ namespace PomocZvieratam
             adapter.AddFragment(new Fragment3(), "Popis");
             adapter.AddFragment(new Fragment2(), "Poloha");
             adapter.AddFragment(new Fragment1(), "Fotografia");
-            
+
             viewPager.Adapter = adapter;
         }
 
@@ -159,7 +173,7 @@ namespace PomocZvieratam
                 default:
                     return base.OnOptionsItemSelected(item);
             }
-            
+
         }
         private void SetUpDrawerContent(NavigationView navigationView)
         {
@@ -169,7 +183,7 @@ namespace PomocZvieratam
                 mDrawerLayout.CloseDrawers();
             };
         }
-
+        // *************************************** ICommunicator functions *******************************************
         public void SendPhoto(byte[] _image)
         {
             requestedAction._imageFile = (_image);
@@ -186,7 +200,7 @@ namespace PomocZvieratam
         {
             requestedAction._typeOfAction = _typeOfAction;
             requestedAction._typeOfAnimal = _typeOfAnimal;
-            requestedAction._infoAboutAction =_info;
+            requestedAction._infoAboutAction = _info;
         }
 
         private class TabAdapter : FragmentPagerAdapter
@@ -194,7 +208,7 @@ namespace PomocZvieratam
             public List<SupportFragment> Fragments { get; set; }
             public List<string> FragmentNames { get; set; }
 
-            public TabAdapter (SupportFragmentManager sfm) : base (sfm)
+            public TabAdapter(SupportFragmentManager sfm) : base(sfm)
             {
                 Fragments = new List<SupportFragment>();
                 FragmentNames = new List<string>();
@@ -211,7 +225,7 @@ namespace PomocZvieratam
                 get
                 {
                     return Fragments.Count;
-                    
+
                 }
             }
 
@@ -225,7 +239,7 @@ namespace PomocZvieratam
                 {
                     return new Java.Lang.String(FragmentNames[position]);
                 }
-                catch(System.Exception e)
+                catch (System.Exception e)
                 {
                     Console.WriteLine(">>>>>>>>>>>>>>>>>. nieco sa posralo pri Jave string:" + e.Message);
                     return base.GetPageTitleFormatted(0);

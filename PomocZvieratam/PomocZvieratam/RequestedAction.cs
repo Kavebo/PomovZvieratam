@@ -2,35 +2,81 @@
 //{
 class RequestedAction
 {
-    public string _typeOfAction { get; set; }
-    public string _typeOfAnimal { get; set; }
+    private string typZvierata;
+    private string typAkcie;
+    public string _typeOfAction
+    {
+        get
+        {
+            return typAkcie; ;
+        }
+        set
+        {
+            switch (value)
+            {
+                case "Zber uhynutých zvierat":
+                    typAkcie = "Zber";
+                    break;
+                case "Odchyt zvierat":
+                    typAkcie = "Odchyt";
+                    break;
+                case "Deratizácia":
+                    typAkcie = "Deretizacia";
+                    break;
+
+                default:
+                    typAkcie = "Odchyt";
+                    break;
+            }
+            ;
+        }
+    }
+    public string _typeOfAnimal
+    {
+        get
+        {
+            return typZvierata;
+        }
+
+        set
+        {
+            switch (value)
+            {
+                case "Spoloèenské zvieratá":
+                    typZvierata = "Spolocenske Zvierata";
+                    break;
+                case "Vo¾ne žijúce zvieratá":
+                    typZvierata = "Volne zijuce zvierata";
+                    break;
+                case "Hospodárske zvieratá":
+                    typZvierata = "Hospodarske zvierata";
+                    break;
+                case "Chránené živoèíchy":
+                    typZvierata = "Chranene zivocichy";
+                    break;
+                case "Po¾ovná zver":
+                    typZvierata = "Polovna zver";
+                    break;
+                case "Hlodavce":
+                    typZvierata = "Hlodavce";
+                    break;
+                case "Iné":
+                    typZvierata = "Ine";
+                    break;
+
+                default:
+                    typZvierata = "ani jedno";
+                    break;
+            }
+            ;
+        }
+    }
     public string _infoAboutAction { get; set; }
     public string _latitude { get; set; }
     public string _logntitude { get; set; }
     public byte[] _imageFile { get; set; }
 
-    //public void SetTypeOfAnimal(string typeOfAnimal)
-    //{
-    //    _typeOfAnimal = typeOfAnimal;
-    //}
-    //public void SetTypeOfAction(string typeOfAction)
-    //{
-    //    _typeOfAction = typeOfAction;
-    //}
-    //public void SetInfoAboutAction(string infoAboutAction)
-    //{
-    //    _infoAboutAction = infoAboutAction;
-    //}
-    //public void SetLocation(string latitude, string longtitude)
-    //{
-    //    _latitude = latitude;
-    //    _logntitude = longtitude;
-    //}
 
-    //public void SetImageSource(byte[] image)
-    //{
-    //    _imageFile = image;
-    //}
 
 }
 //}

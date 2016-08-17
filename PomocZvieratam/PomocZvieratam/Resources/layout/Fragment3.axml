@@ -38,7 +38,7 @@
                 <RadioButton
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Zber Uhynutých zvierat"
+                    android:text="Zber uhynutých zvierat"
                     android:id="@+id/rbZberUhynutychZvierat"
                     android:textSize="20sp" />
                 <RadioButton

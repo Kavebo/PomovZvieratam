@@ -47,16 +47,19 @@ namespace PomocZvieratam.Fragments
 
             // Use this to return your custom view for this Fragment
             // return inflater.Inflate(Resource.Layout.YourFragment, container, false);
-            if (savedInstanceState != null)
+            try
             {
-                fileEncoded = savedInstanceState.GetByteArray("Image");
-                App.bitmap = BitmapFactory.DecodeByteArray(fileEncoded, 0, fileEncoded.Length);
-                MemoryStream memStream = new MemoryStream();
-                photoImageView.SetImageBitmap(App.bitmap);
-                App.bitmap = null;
-                savedInstanceState.Clear();
+                if (savedInstanceState != null)
+                {
+                    fileEncoded = savedInstanceState.GetByteArray("Image");
+                    App.bitmap = BitmapFactory.DecodeByteArray(fileEncoded, 0, fileEncoded.Length);
+                    savedInstanceState.Clear();
+                }
             }
-
+            catch(Exception e)
+            {
+                Console.WriteLine(">>>>>>>>>>>>>> OnCreateView problem s obrazkom:" + e.Message);
+            }
             // If there is App to take photo Take a Picture
             if (IsThereAnAppToTakePicture())
             {
@@ -147,12 +150,9 @@ namespace PomocZvieratam.Fragments
                 MemoryStream memStream = new MemoryStream();
                 App.bitmap.Compress(Bitmap.CompressFormat.Jpeg, 60, memStream);
                 fileEncoded = memStream.ToArray();
-                
-                iComm.SendPhoto(fileEncoded);           // send foto to class via Interface
-                //App.bitmap = null;
             }
             // Dispose of the Java side Bitmap
-            GC.Collect();
+            //GC.Collect();
             
         }
         
@@ -186,8 +186,12 @@ namespace PomocZvieratam.Fragments
         public override void OnSaveInstanceState(Bundle outState)
         {
             base.OnSaveInstanceState(outState);
-            outState.PutByteArray("Image", fileEncoded);
-            fileEncoded = null;
+            if (fileEncoded != null)
+            {
+                Console.WriteLine(">>>>>>>>>>>>>>>> Obrazok bol ulozeny to pamate");
+                outState.PutByteArray("Image", fileEncoded);
+            }
+            //fileEncoded = null;
         }
         public override void OnPause()
         {
@@ -200,14 +204,13 @@ namespace PomocZvieratam.Fragments
             if (App.bitmap != null)
             {
                 photoImageView.SetImageBitmap(App.bitmap);
-                App.bitmap = null;
+                iComm.SendPhoto(fileEncoded);           // send foto to class via Interface
+                Console.WriteLine(">>>>>>>>>>>>> Resume bol zavolany a image nastaveny");
             }
-            Console.WriteLine(">>>>>>>>>>>>> Resume na fragment");
         }
     }
 
-
-
+    
     public static class App
     {
         public static Java.IO.File _file;
