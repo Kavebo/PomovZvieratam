@@ -28,6 +28,9 @@ namespace PomocZvieratam
         private DrawerLayout mDrawerLayout;
         RequestedAction requestedAction = new RequestedAction();
         ProgressDialog progressDialog;
+        TabAdapter adapter;
+
+
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -115,7 +118,7 @@ namespace PomocZvieratam
 
 
         }
-
+        //************************************ Function to find out if internet is vailable ****************************
         public bool IsInternetAvailable()
         {
             try
@@ -134,7 +137,7 @@ namespace PomocZvieratam
                 return false;
             }
         }
-
+        //************************************** Values was uploaded to server correctly action **************************
         private void Client_UploadValuesCompleted(object sender, UploadValuesCompletedEventArgs e)
         {
             RunOnUiThread(() =>
@@ -150,10 +153,10 @@ namespace PomocZvieratam
         }
 
 
-        //********************************Adding fragment to ViewPager **********************************
+        //***************************************** Adding fragment to ViewPager **********************************
         private void SetUpViewPager(ViewPager viewPager)
         {
-            TabAdapter adapter = new TabAdapter(SupportFragmentManager);
+            adapter = new TabAdapter(SupportFragmentManager);
             adapter.AddFragment(new Fragment3(), "Popis");
             adapter.AddFragment(new Fragment2(), "Poloha");
             adapter.AddFragment(new Fragment1(), "Fotografia");
@@ -161,7 +164,7 @@ namespace PomocZvieratam
             viewPager.Adapter = adapter;
         }
 
-
+        //*********************************** Hamburger button to draw left drawer *********************************
         public override bool OnOptionsItemSelected(IMenuItem item)
         {
             switch (item.ItemId)
@@ -179,8 +182,24 @@ namespace PomocZvieratam
         {
             navigationView.NavigationItemSelected += (object sender, NavigationView.NavigationItemSelectedEventArgs e) =>
             {
+                SupportFragmentManager fragmentManager = SupportFragmentManager;
                 e.MenuItem.SetChecked(true);
+                
                 mDrawerLayout.CloseDrawers();
+
+                switch (e.MenuItem.ItemId)
+                {
+                    
+                    case Resource.Id.nav_home:
+                        Toast.MakeText(this, "Popis!", ToastLength.Short).Show();
+                        return;
+                    case Resource.Id.nav_messages:
+                        Toast.MakeText(this, "Poloha!", ToastLength.Short).Show();
+                        return;
+                    case Resource.Id.nav_friends:
+                        Toast.MakeText(this, "Fotka!", ToastLength.Short).Show();
+                        return;
+                }
             };
         }
         // *************************************** ICommunicator functions *******************************************
@@ -202,7 +221,7 @@ namespace PomocZvieratam
             requestedAction._typeOfAnimal = _typeOfAnimal;
             requestedAction._infoAboutAction = _info;
         }
-
+        //******************************************* Tab Adapter set up Fragments adapter *****************************
         private class TabAdapter : FragmentPagerAdapter
         {
             public List<SupportFragment> Fragments { get; set; }

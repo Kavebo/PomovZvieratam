@@ -2251,8 +2251,8 @@ namespace PomocZvieratam
 			// aapt resource value: 0x7f090047
 			public const int action_mode_close_button = 2131296327;
 			
-			// aapt resource value: 0x7f0900af
-			public const int action_settings = 2131296431;
+			// aapt resource value: 0x7f0900ae
+			public const int action_settings = 2131296430;
 			
 			// aapt resource value: 0x7f090048
 			public const int activity_chooser_view_content = 2131296328;
@@ -2472,9 +2472,6 @@ namespace PomocZvieratam
 			
 			// aapt resource value: 0x7f090021
 			public const int multiply = 2131296289;
-			
-			// aapt resource value: 0x7f0900ae
-			public const int nav_discussion = 2131296430;
 			
 			// aapt resource value: 0x7f0900ad
 			public const int nav_friends = 2131296429;

@@ -5,19 +5,15 @@
     <item
         android:id="@+id/nav_home"
         android:icon="@drawable/ic_dashboard"
-        android:title="Home" />
+        android:title="Popis" />
     <item
         android:id="@+id/nav_messages"
         android:icon="@drawable/ic_event"
-        android:title="Messages" />
+        android:title="Poloha" />
     <item
         android:id="@+id/nav_friends"
         android:icon="@drawable/ic_headset"
-        android:title="Friends" />
-    <item
-        android:id="@+id/nav_discussion"
-        android:icon="@drawable/ic_forum"
-        android:title="Discussion" />
+        android:title="Obrázok" />
   </group>
 
   <item android:title="Sub items">

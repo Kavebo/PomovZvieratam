@@ -156,7 +156,9 @@
     <AndroidResource Include="Resources\layout\nav_header.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\menu\drawer_view.axml" />
+    <AndroidResource Include="Resources\menu\drawer_view.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
     <AndroidResource Include="Resources\menu\sample_actions.axml" />
     <AndroidResource Include="Resources\layout\include_list_viewpager.axml" />
     <AndroidResource Include="Resources\layout\Fragment1.axml">
@@ -307,9 +309,6 @@
     <Folder Include="Helpers\" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\hafan.png" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\drawable\PhotoImageButtonStyle.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -317,6 +316,9 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\ic_menu_mylocation.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\hafan.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
