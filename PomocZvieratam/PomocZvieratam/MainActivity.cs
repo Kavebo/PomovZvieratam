@@ -19,16 +19,19 @@ using System.Collections.Specialized;
 using System.Text;
 using Android.Widget;
 using System.Net.NetworkInformation;
+using Android.Content;
+using Android.Content.PM;
 
 namespace PomocZvieratam
 {
-    [Activity(Label = "PomocZvieratam", MainLauncher = true, Icon = "@drawable/icon", Theme = "@style/Theme.DesignDemo")]
+    [Activity(Label = "PomocZvieratam", MainLauncher = true, Icon = "@drawable/icon", Theme = "@style/Theme.DesignDemo", ScreenOrientation = ScreenOrientation.Portrait)]
     public class MainActivity : AppCompatActivity, ICommunicator
     {
         private DrawerLayout mDrawerLayout;
         RequestedAction requestedAction = new RequestedAction();
         ProgressDialog progressDialog;
         TabAdapter adapter;
+        ViewPager viewPager;
 
 
 
@@ -56,7 +59,7 @@ namespace PomocZvieratam
 
 
             TabLayout tabs = FindViewById<TabLayout>(Resource.Id.tabs);
-            ViewPager viewPager = FindViewById<ViewPager>(Resource.Id.viewpager);
+            viewPager = FindViewById<ViewPager>(Resource.Id.viewpager);
 
             SetUpViewPager(viewPager);
             tabs.SetupWithViewPager(viewPager);
@@ -192,13 +195,38 @@ namespace PomocZvieratam
                     
                     case Resource.Id.nav_home:
                         Toast.MakeText(this, "Popis!", ToastLength.Short).Show();
+                        viewPager.SetCurrentItem(0, true);
                         return;
                     case Resource.Id.nav_messages:
                         Toast.MakeText(this, "Poloha!", ToastLength.Short).Show();
+                        viewPager.SetCurrentItem(1, true);
                         return;
                     case Resource.Id.nav_friends:
                         Toast.MakeText(this, "Fotka!", ToastLength.Short).Show();
+                        viewPager.SetCurrentItem(2, true);
                         return;
+                    case Resource.Id.nav_mail:
+                        Intent email = new Intent(Intent.ActionSend);
+                        email.PutExtra(Intent.ExtraEmail,new string[] { "odchytzvierat@odchytzvierat.eu" });
+                        email.PutExtra(Intent.ExtraSubject, "Pomoc Zvieratam");
+                        email.PutExtra(Intent.ExtraText, "Text...");
+                        email.SetType("text/email");
+                        StartActivity(email);
+                        return;
+                    case Resource.Id.nav_about:
+                        Android.Support.V7.App.AlertDialog.Builder alert = new Android.Support.V7.App.AlertDialog.Builder(this);
+                        alert.SetTitle("Info");
+                        alert.SetMessage("Aplikácia vytvorená pre firmu \nTD, s.r.o Košice. \nhttp://www.odchytzvierat.eu\n\nVytvoril v roku 2016 Bobo. ");
+                        alert.SetPositiveButton("OK", (senderAlert, args) => {
+                            // write your own set of instructions
+                        });
+
+                        //run the alert in UI thread to display in the screen
+                        RunOnUiThread(() => {
+                            alert.Show();
+                        });
+                        return;
+
                 }
             };
         }

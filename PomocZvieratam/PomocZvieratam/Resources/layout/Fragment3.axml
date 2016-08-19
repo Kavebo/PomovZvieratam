@@ -12,16 +12,15 @@
             android:layout_height="match_parent">
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
                 android:layout_centerInParent="false"
                 android:gravity="top"
                 android:text="Ako Vám pomôžeme?"
-                android:textSize="30sp"
-                android:textColor="@android:color/holo_purple"
+                android:textSize="25sp"
                 android:layout_gravity="top"
                 android:id="@+id/tvVyberAkcie"
                 android:layout_marginBottom="0.0dp"
-                android:layout_marginTop="0.0dp" />
+                android:layout_marginTop="0.0dp"
+                android:layout_height="wrap_content" />
             <RadioGroup
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -59,8 +58,7 @@
                 android:layout_centerInParent="false"
                 android:gravity="top"
                 android:text="Typ zvieraťa:"
-                android:textSize="20sp"
-                android:textColor="@android:color/holo_purple"
+                android:textSize="25sp"
                 android:id="@+id/tvVyberAkcie"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="0.0dp" />
@@ -70,7 +68,6 @@
                 android:id="@+id/spinnerAkcia"
                 android:layout_gravity="center"
                 android:layout_alignBottom="@id/tvVyberAkcie"
-                android:background="@android:color/darker_gray"
                 android:layout_marginBottom="10dp" />
             <TextView
                 android:text="Popis problému:"
@@ -78,7 +75,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/rgTypeOfAction"
-                android:id="@+id/textView1" />
+                android:id="@+id/textView1"
+                android:textSize="25sp" />
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -90,6 +88,7 @@
                     android:layout_gravity="bottom"
                     android:inputType="textMultiLine"
                     android:id="@+id/etPopis"
+                    android:textSize="20sp"
                     android:hint="Popis" />
             </android.support.design.widget.TextInputLayout>
         </TableLayout>

@@ -2140,58 +2140,61 @@ namespace PomocZvieratam
 			public const int design_snackbar_background = 2130837622;
 			
 			// aapt resource value: 0x7f020077
-			public const int hafan = 2130837623;
+			public const int dog1 = 2130837623;
 			
 			// aapt resource value: 0x7f020078
-			public const int ic_dashboard = 2130837624;
+			public const int dog3 = 2130837624;
 			
 			// aapt resource value: 0x7f020079
-			public const int ic_discuss = 2130837625;
+			public const int dog_icon = 2130837625;
 			
 			// aapt resource value: 0x7f02007a
-			public const int ic_done = 2130837626;
+			public const int ic_dashboard = 2130837626;
 			
 			// aapt resource value: 0x7f02007b
-			public const int ic_event = 2130837627;
+			public const int ic_discuss = 2130837627;
 			
 			// aapt resource value: 0x7f02007c
-			public const int ic_forum = 2130837628;
+			public const int ic_done = 2130837628;
 			
 			// aapt resource value: 0x7f02007d
-			public const int ic_headset = 2130837629;
+			public const int ic_event = 2130837629;
 			
 			// aapt resource value: 0x7f02007e
-			public const int ic_maps_indicator_current_position = 2130837630;
+			public const int ic_forum = 2130837630;
 			
 			// aapt resource value: 0x7f02007f
-			public const int ic_menu = 2130837631;
+			public const int ic_headset = 2130837631;
 			
 			// aapt resource value: 0x7f020080
-			public const int ic_menu_mylocation = 2130837632;
+			public const int ic_maps_indicator_current_position = 2130837632;
 			
 			// aapt resource value: 0x7f020081
-			public const int Icon = 2130837633;
+			public const int ic_menu = 2130837633;
 			
 			// aapt resource value: 0x7f020082
-			public const int mapMockup = 2130837634;
-			
-			// aapt resource value: 0x7f020088
-			public const int notification_template_icon_bg = 2130837640;
+			public const int ic_menu_mylocation = 2130837634;
 			
 			// aapt resource value: 0x7f020083
-			public const int PhotoImageButtonStyle = 2130837635;
+			public const int Icon = 2130837635;
+			
+			// aapt resource value: 0x7f020089
+			public const int notification_template_icon_bg = 2130837641;
 			
 			// aapt resource value: 0x7f020084
-			public const int places_ic_clear = 2130837636;
+			public const int PhotoImageButtonStyle = 2130837636;
 			
 			// aapt resource value: 0x7f020085
-			public const int places_ic_search = 2130837637;
+			public const int places_ic_clear = 2130837637;
 			
 			// aapt resource value: 0x7f020086
-			public const int powered_by_google_dark = 2130837638;
+			public const int places_ic_search = 2130837638;
 			
 			// aapt resource value: 0x7f020087
-			public const int powered_by_google_light = 2130837639;
+			public const int powered_by_google_dark = 2130837639;
+			
+			// aapt resource value: 0x7f020088
+			public const int powered_by_google_light = 2130837640;
 			
 			static Drawable()
 			{
@@ -2251,8 +2254,8 @@ namespace PomocZvieratam
 			// aapt resource value: 0x7f090047
 			public const int action_mode_close_button = 2131296327;
 			
-			// aapt resource value: 0x7f0900ae
-			public const int action_settings = 2131296430;
+			// aapt resource value: 0x7f0900b0
+			public const int action_settings = 2131296432;
 			
 			// aapt resource value: 0x7f090048
 			public const int activity_chooser_view_content = 2131296328;
@@ -2473,11 +2476,17 @@ namespace PomocZvieratam
 			// aapt resource value: 0x7f090021
 			public const int multiply = 2131296289;
 			
+			// aapt resource value: 0x7f0900af
+			public const int nav_about = 2131296431;
+			
 			// aapt resource value: 0x7f0900ad
 			public const int nav_friends = 2131296429;
 			
 			// aapt resource value: 0x7f0900ab
 			public const int nav_home = 2131296427;
+			
+			// aapt resource value: 0x7f0900ae
+			public const int nav_mail = 2131296430;
 			
 			// aapt resource value: 0x7f0900ac
 			public const int nav_messages = 2131296428;

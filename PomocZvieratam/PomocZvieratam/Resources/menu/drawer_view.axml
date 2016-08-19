@@ -2,28 +2,34 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
   <group android:checkableBehavior="single">
+    <item android:title="Záložky">
+      <menu>
     <item
         android:id="@+id/nav_home"
         android:icon="@drawable/ic_dashboard"
         android:title="Popis" />
     <item
         android:id="@+id/nav_messages"
-        android:icon="@drawable/ic_event"
+        android:icon="@drawable/ic_dashboard"
         android:title="Poloha" />
     <item
         android:id="@+id/nav_friends"
-        android:icon="@drawable/ic_headset"
+        android:icon="@drawable/ic_dashboard"
         android:title="Obrázok" />
+      </menu>
+    </item>
   </group>
 
-  <item android:title="Sub items">
+  <item android:title="Informácie">
     <menu>
       <item
-          android:icon="@drawable/ic_dashboard"
-          android:title="Sub item 1" />
+          android:id="@+id/nav_mail"
+          android:icon="@drawable/ic_discuss"
+          android:title="Napísať správu" />
       <item
+          android:id="@+id/nav_about"
           android:icon="@drawable/ic_forum"
-          android:title="Sub item 2" />
+          android:title="Info" />
     </menu>
   </item>
 
