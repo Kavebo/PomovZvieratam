@@ -5,6 +5,7 @@
     android:padding="16dp"
     android:focusable="true">
     <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <TableLayout
@@ -85,11 +86,24 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
                     android:inputType="textMultiLine"
                     android:id="@+id/etPopis"
                     android:textSize="20sp"
                     android:hint="Popis" />
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textView1"
+                android:id="@+id/android.support.design.widget.TextInputLayout2"
+                android:layout_marginBottom="50dp">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="phone"
+                    android:id="@+id/etPhone"
+                    android:textSize="20sp"
+                    android:hint="Telefónne číslo" />
             </android.support.design.widget.TextInputLayout>
         </TableLayout>
     </ScrollView>

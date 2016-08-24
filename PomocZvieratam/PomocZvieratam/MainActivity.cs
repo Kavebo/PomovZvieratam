@@ -24,7 +24,7 @@ using Android.Content.PM;
 
 namespace PomocZvieratam
 {
-    [Activity(Label = "PomocZvieratam", MainLauncher = true, Icon = "@drawable/icon", Theme = "@style/Theme.DesignDemo", ScreenOrientation = ScreenOrientation.Portrait)]
+    [Activity(Label = "ANIMAL RESCUE SK", MainLauncher = true, Icon = "@drawable/dog_icon", Theme = "@style/Theme.DesignDemo", WindowSoftInputMode = SoftInput.AdjustPan, ScreenOrientation = ScreenOrientation.Portrait)]
     public class MainActivity : AppCompatActivity, ICommunicator
     {
         private DrawerLayout mDrawerLayout;
@@ -90,6 +90,10 @@ namespace PomocZvieratam
                             Toast.MakeText(this, "Vyplnte lokalitu", ToastLength.Short).Show();
                         else if (requestedAction._imageFile == null)
                             Toast.MakeText(this, "Pridajte fotku", ToastLength.Short).Show();
+                        else if (requestedAction._infoAboutAction == "")
+                            Toast.MakeText(this, "Pridajte Popis", ToastLength.Short).Show();
+                        else if (requestedAction._telephone == "")
+                            Toast.MakeText(this, "Zadajte telefónne číslo", ToastLength.Short).Show();
                         else
                         {
                             WebClient client = new WebClient();
@@ -102,6 +106,7 @@ namespace PomocZvieratam
                             parameters.Add("_latitude", requestedAction._latitude.Replace(',','.'));
                             parameters.Add("_longtitude", requestedAction._logntitude.Replace(',', '.'));
                             parameters.Add("_infoAboutAction", requestedAction._infoAboutAction);
+                            parameters.Add("_phoneNumber", requestedAction._telephone);
                             parameters.Add("_imageFile", Convert.ToBase64String(requestedAction._imageFile));
 
                             client.UploadValuesAsync(uri, parameters);
@@ -120,6 +125,16 @@ namespace PomocZvieratam
             };
 
 
+            var uiOptions = SystemUiFlags.HideNavigation | SystemUiFlags.Immersive | SystemUiFlags.Fullscreen;
+            Window.DecorView.SystemUiVisibility = (StatusBarVisibility)uiOptions;
+
+        }
+        
+        public override void OnUserInteraction()
+        {
+            base.OnUserInteraction();
+            var uiOptions = SystemUiFlags.HideNavigation | SystemUiFlags.Immersive |SystemUiFlags.Fullscreen;
+            Window.DecorView.SystemUiVisibility = (StatusBarVisibility)uiOptions;
         }
         //************************************ Function to find out if internet is vailable ****************************
         public bool IsInternetAvailable()
@@ -243,11 +258,12 @@ namespace PomocZvieratam
             requestedAction._logntitude = _longtitude;
         }
 
-        public void SendInfo(string _typeOfAction, string _typeOfAnimal, string _info)
+        public void SendInfo(string _typeOfAction, string _typeOfAnimal, string _info, string _phoneNumber)
         {
             requestedAction._typeOfAction = _typeOfAction;
             requestedAction._typeOfAnimal = _typeOfAnimal;
             requestedAction._infoAboutAction = _info;
+            requestedAction._telephone = _phoneNumber;
         }
         //******************************************* Tab Adapter set up Fragments adapter *****************************
         private class TabAdapter : FragmentPagerAdapter

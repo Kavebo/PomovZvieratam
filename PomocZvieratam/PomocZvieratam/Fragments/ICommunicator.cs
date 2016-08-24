@@ -17,7 +17,7 @@ namespace PomocZvieratam.Fragments
 
         void SendPhoto(byte[] image);
         void SendLocation(string latitude, string longtitude);
-        void SendInfo(string typeOfAction, string typeOfAnimal, string info);
+        void SendInfo(string typeOfAction, string typeOfAnimal, string info, string phoneNumber);
         
     }
 }

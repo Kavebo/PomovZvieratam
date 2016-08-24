@@ -9,23 +9,20 @@
         <ImageView
             android:src="@drawable/dog3"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="450dp"
             android:id="@+id/photoImageView"
-            android:layout_marginBottom="55dp" />
-        <Button
+            android:layout_marginBottom="10dp" />
+        <android.support.design.widget.FloatingActionButton xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/captureImage"
-            android:layout_marginBottom="55dp"
-            android:text="Odfoť"
-            android:textColor="#240523"
-            android:textSize="30sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true"
-            android:layout_width="126dp"
-            android:layout_height="60dp"
-            android:background="@drawable/PhotoImageButtonStyle"
-            android:shadowColor="#A80CA3"
-            android:shadowDx="0"
-            android:shadowDy="0"
-            android:shadowRadius="5" />
+            android:layout_alignParentBottom="true"        
+            android:layout_marginBottom="70dp"
+            android:elevation="8dp"
+            app:backgroundTint="#FFFFFF"
+            android:src="@drawable/camera_icon"
+            android:scaleX="1.5"
+            android:scaleY="1.5" />
     </RelativeLayout>
 </FrameLayout>

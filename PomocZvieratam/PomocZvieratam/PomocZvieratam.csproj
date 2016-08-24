@@ -164,9 +164,6 @@
     <AndroidResource Include="Resources\layout\Fragment1.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\layout\Fragment2.axml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
     <AndroidResource Include="Resources\layout\Fragment3.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
@@ -187,7 +184,9 @@
     <AndroidResource Include="Resources\drawable\Icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Properties\AndroidManifest.xml" />
+    <None Include="Properties\AndroidManifest.xml">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="googleplayservices-location">
@@ -306,9 +305,6 @@
     <Folder Include="Helpers\" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\PhotoImageButtonStyle.xml" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\drawable\ic_maps_indicator_current_position.png" />
   </ItemGroup>
   <ItemGroup>
@@ -322,6 +318,9 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\dog_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\camera_icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

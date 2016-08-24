@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using BitmapHelper;
 using System.IO;
 using Square.Picasso;
+using Android.Support.Design.Widget;
 
 namespace PomocZvieratam.Fragments
 {
@@ -41,8 +42,9 @@ namespace PomocZvieratam.Fragments
             
 
             View view = inflater.Inflate(Resource.Layout.Fragment1, container, false);
+            FloatingActionButton captureImage = view.FindViewById<FloatingActionButton>(Resource.Id.captureImage);
 
-            Button captureImage = view.FindViewById<Button>(Resource.Id.captureImage);
+            //Button captureImage = view.FindViewById<Button>(Resource.Id.captureImage);
             photoImageView = view.FindViewById<ImageView>(Resource.Id.photoImageView);
 
             // Use this to return your custom view for this Fragment

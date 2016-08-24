@@ -11,7 +11,6 @@ namespace PomocZvieratam.Fragments
 {
     public class Fragment3 : SupportFragment
     {
-
         Spinner spinnerAction;
         ArrayAdapter adapter;
         ArrayList arrayList = new ArrayList();
@@ -20,10 +19,12 @@ namespace PomocZvieratam.Fragments
         RadioButton rbZberMrtvychZvierat;
         RadioButton rbDeratizacia;
         EditText etPopis;
+        EditText etTelephone;
         ICommunicator iComm;
         public string _typeOfAnimal = "";
         public string _typeOfAction = "Odchyt zvierat";
         public string _information = "";
+        public string _phoneNumber = "";
         private InputMethodManager imm;
 
 
@@ -62,13 +63,13 @@ namespace PomocZvieratam.Fragments
             // return inflater.Inflate(Resource.Layout.YourFragment, container, false);
 
             View view = inflater.Inflate(Resource.Layout.Fragment3, container, false);
-            view.RequestFocus();
 
             rgTypeOfAction = view.FindViewById<RadioGroup>(Resource.Id.rgTypeOfAction);
             rbOdchytZvierat = view.FindViewById<RadioButton>(Resource.Id.rbOdchytZvierat);
             rbZberMrtvychZvierat = view.FindViewById<RadioButton>(Resource.Id.rbZberUhynutychZvierat);
             rbDeratizacia = view.FindViewById<RadioButton>(Resource.Id.rbDeratizaciaZvierat);
             etPopis = view.FindViewById<EditText>(Resource.Id.etPopis);
+            etTelephone = view.FindViewById<EditText>(Resource.Id.etPhone);
             spinnerAction = view.FindViewById<Spinner>(Resource.Id.spinnerAkcia);
 
             spinnerAction.RequestFocus();
@@ -80,29 +81,34 @@ namespace PomocZvieratam.Fragments
             {
                 RadioButton checkedRadioButton = view.FindViewById<RadioButton>(rgTypeOfAction.CheckedRadioButtonId);
                 _typeOfAction = checkedRadioButton.Text;
-                iComm.SendInfo(_typeOfAction, _typeOfAnimal, _information);
+                iComm.SendInfo(_typeOfAction, _typeOfAnimal, _information, _phoneNumber);
                 imm.HideSoftInputFromWindow(etPopis.WindowToken, 0);
             };
-            etPopis.AfterTextChanged += EtPopis_AfterTextChanged;
+           // etPopis.AfterTextChanged += EtPopis_AfterTextChanged;
+            etPopis.SystemUiVisibilityChange += EtPopis_SystemUiVisibilityChange;
+            //etTelephone.AfterTextChanged += EtTelephone_AfterTextChanged;
+            etTelephone.SystemUiVisibilityChange += EtTelephone_SystemUiVisibilityChange;
 
             imm = (InputMethodManager)Activity.GetSystemService(Context.InputMethodService);
-            
-
             return view;
         }
 
-        private void EtPopis_AfterTextChanged(object sender, Android.Text.AfterTextChangedEventArgs e)
+        private void EtPopis_SystemUiVisibilityChange(object sender, View.SystemUiVisibilityChangeEventArgs e)
+        {
+            _phoneNumber = etTelephone.Text;
+            iComm.SendInfo(_typeOfAction, _typeOfAnimal, _information, _phoneNumber);
+        }
+
+        private void EtTelephone_SystemUiVisibilityChange(object sender, View.SystemUiVisibilityChangeEventArgs e)
         {
             _information = etPopis.Text;
-            iComm.SendInfo(_typeOfAction, _typeOfAnimal, _information);
-            
+            iComm.SendInfo(_typeOfAction, _typeOfAnimal, _information, _phoneNumber);
         }
-       
         private void SpinnerAction_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
         {
             //Toast.MakeText(Context, arrayList[e.Position].ToString(), ToastLength.Short).Show();
             _typeOfAnimal = arrayList[e.Position].ToString();
-            iComm.SendInfo(_typeOfAction, _typeOfAnimal, _information);         // Send info to class when something in spinner is selected
+            iComm.SendInfo(_typeOfAction, _typeOfAnimal, _information, _phoneNumber);         // Send info to class when something in spinner is selected
             imm.HideSoftInputFromWindow(etPopis.WindowToken, 0);                //Hide keyboard when something in spinner is selected
         }
 

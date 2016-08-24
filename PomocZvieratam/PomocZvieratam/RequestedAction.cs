@@ -75,6 +75,7 @@ class RequestedAction
     public string _latitude { get; set; }
     public string _logntitude { get; set; }
     public byte[] _imageFile { get; set; }
+    public string _telephone { get; set; }
 
 
 
