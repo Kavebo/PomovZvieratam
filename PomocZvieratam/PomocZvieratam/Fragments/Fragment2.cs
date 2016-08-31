@@ -72,7 +72,8 @@ namespace PomocZvieratam.Fragments
             {
                 Toast.MakeText(Context, "Poloha nie je k dispozícií, skúste neskôr", ToastLength.Short).Show();
                 _addressOfDevice = "Can't determine the current address. Try again in a few minutes.";
-                //_addressText.Text = "Can't determine the current address. Try again in a few minutes.";
+                checkGPSLocationService();
+                InitializeLocationManager();
                 return;
             }
             //Send actual position to main activity
@@ -276,6 +277,7 @@ namespace PomocZvieratam.Fragments
         public override void OnResume()
         {
             base.OnResume();
+            
             if (_locationProvider.Any())
             {
                 _locationManager.RequestLocationUpdates(_locationProvider, 0, 0, this);

@@ -2181,8 +2181,8 @@ namespace PomocZvieratam
 			// aapt resource value: 0x7f020084
 			public const int Icon = 2130837636;
 			
-			// aapt resource value: 0x7f020089
-			public const int notification_template_icon_bg = 2130837641;
+			// aapt resource value: 0x7f02008b
+			public const int notification_template_icon_bg = 2130837643;
 			
 			// aapt resource value: 0x7f020085
 			public const int places_ic_clear = 2130837637;
@@ -2195,6 +2195,12 @@ namespace PomocZvieratam
 			
 			// aapt resource value: 0x7f020088
 			public const int powered_by_google_light = 2130837640;
+			
+			// aapt resource value: 0x7f020089
+			public const int splashScreen = 2130837641;
+			
+			// aapt resource value: 0x7f02008a
+			public const int splashScreen2 = 2130837642;
 			
 			static Drawable()
 			{
@@ -2209,8 +2215,8 @@ namespace PomocZvieratam
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f090096
-			public const int action0 = 2131296406;
+			// aapt resource value: 0x7f090099
+			public const int action0 = 2131296409;
 			
 			// aapt resource value: 0x7f090065
 			public const int action_bar = 2131296357;
@@ -2236,8 +2242,8 @@ namespace PomocZvieratam
 			// aapt resource value: 0x7f090066
 			public const int action_context_bar = 2131296358;
 			
-			// aapt resource value: 0x7f09009a
-			public const int action_divider = 2131296410;
+			// aapt resource value: 0x7f09009d
+			public const int action_divider = 2131296413;
 			
 			// aapt resource value: 0x7f090003
 			public const int action_menu_divider = 2131296259;
@@ -2254,8 +2260,8 @@ namespace PomocZvieratam
 			// aapt resource value: 0x7f090047
 			public const int action_mode_close_button = 2131296327;
 			
-			// aapt resource value: 0x7f0900b0
-			public const int action_settings = 2131296432;
+			// aapt resource value: 0x7f0900b3
+			public const int action_settings = 2131296435;
 			
 			// aapt resource value: 0x7f090048
 			public const int activity_chooser_view_content = 2131296328;
@@ -2272,20 +2278,20 @@ namespace PomocZvieratam
 			// aapt resource value: 0x7f090029
 			public const int always = 2131296297;
 			
-			// aapt resource value: 0x7f090086
-			public const int android_support_design_widget_TextInputLayout1 = 2131296390;
+			// aapt resource value: 0x7f090089
+			public const int android_support_design_widget_TextInputLayout1 = 2131296393;
 			
-			// aapt resource value: 0x7f090088
-			public const int android_support_design_widget_TextInputLayout2 = 2131296392;
+			// aapt resource value: 0x7f09008b
+			public const int android_support_design_widget_TextInputLayout2 = 2131296395;
 			
-			// aapt resource value: 0x7f09008a
-			public const int appbar = 2131296394;
+			// aapt resource value: 0x7f09008d
+			public const int appbar = 2131296397;
 			
 			// aapt resource value: 0x7f090015
 			public const int auto = 2131296277;
 			
-			// aapt resource value: 0x7f09008f
-			public const int avatar = 2131296399;
+			// aapt resource value: 0x7f090092
+			public const int avatar = 2131296402;
 			
 			// aapt resource value: 0x7f090026
 			public const int beginning = 2131296294;
@@ -2296,8 +2302,8 @@ namespace PomocZvieratam
 			// aapt resource value: 0x7f09004f
 			public const int buttonPanel = 2131296335;
 			
-			// aapt resource value: 0x7f090097
-			public const int cancel_action = 2131296407;
+			// aapt resource value: 0x7f09009a
+			public const int cancel_action = 2131296410;
 			
 			// aapt resource value: 0x7f09007e
 			public const int captureImage = 2131296382;
@@ -2314,8 +2320,8 @@ namespace PomocZvieratam
 			// aapt resource value: 0x7f09005d
 			public const int checkbox = 2131296349;
 			
-			// aapt resource value: 0x7f09009d
-			public const int chronometer = 2131296413;
+			// aapt resource value: 0x7f0900a0
+			public const int chronometer = 2131296416;
 			
 			// aapt resource value: 0x7f09003e
 			public const int clip_horizontal = 2131296318;
@@ -2362,8 +2368,8 @@ namespace PomocZvieratam
 			// aapt resource value: 0x7f09001a
 			public const int disableHome = 2131296282;
 			
-			// aapt resource value: 0x7f090091
-			public const int drawer_layout = 2131296401;
+			// aapt resource value: 0x7f090094
+			public const int drawer_layout = 2131296404;
 			
 			// aapt resource value: 0x7f090067
 			public const int edit_query = 2131296359;
@@ -2371,8 +2377,8 @@ namespace PomocZvieratam
 			// aapt resource value: 0x7f090027
 			public const int end = 2131296295;
 			
-			// aapt resource value: 0x7f0900a2
-			public const int end_padder = 2131296418;
+			// aapt resource value: 0x7f0900a5
+			public const int end_padder = 2131296421;
 			
 			// aapt resource value: 0x7f09002e
 			public const int enterAlways = 2131296302;
@@ -2380,11 +2386,11 @@ namespace PomocZvieratam
 			// aapt resource value: 0x7f09002f
 			public const int enterAlwaysCollapsed = 2131296303;
 			
-			// aapt resource value: 0x7f090089
-			public const int etPhone = 2131296393;
+			// aapt resource value: 0x7f09008c
+			public const int etPhone = 2131296396;
 			
-			// aapt resource value: 0x7f090087
-			public const int etPopis = 2131296391;
+			// aapt resource value: 0x7f09008a
+			public const int etPopis = 2131296394;
 			
 			// aapt resource value: 0x7f090030
 			public const int exitUntilCollapsed = 2131296304;
@@ -2395,11 +2401,11 @@ namespace PomocZvieratam
 			// aapt resource value: 0x7f09005c
 			public const int expanded_menu = 2131296348;
 			
-			// aapt resource value: 0x7f09008e
-			public const int fab = 2131296398;
+			// aapt resource value: 0x7f090091
+			public const int fab = 2131296401;
 			
-			// aapt resource value: 0x7f090094
-			public const int fabGps = 2131296404;
+			// aapt resource value: 0x7f090097
+			public const int fabGps = 2131296407;
 			
 			// aapt resource value: 0x7f090040
 			public const int fill = 2131296320;
@@ -2434,11 +2440,11 @@ namespace PomocZvieratam
 			// aapt resource value: 0x7f09004a
 			public const int image = 2131296330;
 			
-			// aapt resource value: 0x7f090095
-			public const int imgViewHeader = 2131296405;
+			// aapt resource value: 0x7f090098
+			public const int imgViewHeader = 2131296408;
 			
-			// aapt resource value: 0x7f0900a1
-			public const int info = 2131296417;
+			// aapt resource value: 0x7f0900a4
+			public const int info = 2131296420;
 			
 			// aapt resource value: 0x7f090000
 			public const int item_touch_helper_previous_elevation = 2131296256;
@@ -2449,11 +2455,11 @@ namespace PomocZvieratam
 			// aapt resource value: 0x7f090017
 			public const int light = 2131296279;
 			
-			// aapt resource value: 0x7f09009b
-			public const int line1 = 2131296411;
+			// aapt resource value: 0x7f09009e
+			public const int line1 = 2131296414;
 			
-			// aapt resource value: 0x7f09009f
-			public const int line3 = 2131296415;
+			// aapt resource value: 0x7f0900a2
+			public const int line3 = 2131296418;
 			
 			// aapt resource value: 0x7f090018
 			public const int listMode = 2131296280;
@@ -2461,11 +2467,11 @@ namespace PomocZvieratam
 			// aapt resource value: 0x7f09004c
 			public const int list_item = 2131296332;
 			
-			// aapt resource value: 0x7f090093
-			public const int map = 2131296403;
+			// aapt resource value: 0x7f090096
+			public const int map = 2131296406;
 			
-			// aapt resource value: 0x7f090099
-			public const int media_actions = 2131296409;
+			// aapt resource value: 0x7f09009c
+			public const int media_actions = 2131296412;
 			
 			// aapt resource value: 0x7f090028
 			public const int middle = 2131296296;
@@ -2476,23 +2482,23 @@ namespace PomocZvieratam
 			// aapt resource value: 0x7f090021
 			public const int multiply = 2131296289;
 			
-			// aapt resource value: 0x7f0900af
-			public const int nav_about = 2131296431;
+			// aapt resource value: 0x7f0900b2
+			public const int nav_about = 2131296434;
 			
-			// aapt resource value: 0x7f0900ad
-			public const int nav_friends = 2131296429;
-			
-			// aapt resource value: 0x7f0900ab
-			public const int nav_home = 2131296427;
+			// aapt resource value: 0x7f0900b0
+			public const int nav_friends = 2131296432;
 			
 			// aapt resource value: 0x7f0900ae
-			public const int nav_mail = 2131296430;
+			public const int nav_home = 2131296430;
 			
-			// aapt resource value: 0x7f0900ac
-			public const int nav_messages = 2131296428;
+			// aapt resource value: 0x7f0900b1
+			public const int nav_mail = 2131296433;
 			
-			// aapt resource value: 0x7f090092
-			public const int nav_view = 2131296402;
+			// aapt resource value: 0x7f0900af
+			public const int nav_messages = 2131296431;
+			
+			// aapt resource value: 0x7f090095
+			public const int nav_view = 2131296405;
 			
 			// aapt resource value: 0x7f090078
 			public const int navigation_header_container = 2131296376;
@@ -2518,29 +2524,29 @@ namespace PomocZvieratam
 			// aapt resource value: 0x7f090034
 			public const int pin = 2131296308;
 			
-			// aapt resource value: 0x7f0900a5
-			public const int place_autocomplete_clear_button = 2131296421;
-			
-			// aapt resource value: 0x7f0900a7
-			public const int place_autocomplete_powered_by_google = 2131296423;
-			
-			// aapt resource value: 0x7f0900a9
-			public const int place_autocomplete_prediction_primary_text = 2131296425;
+			// aapt resource value: 0x7f0900a8
+			public const int place_autocomplete_clear_button = 2131296424;
 			
 			// aapt resource value: 0x7f0900aa
-			public const int place_autocomplete_prediction_secondary_text = 2131296426;
+			public const int place_autocomplete_powered_by_google = 2131296426;
 			
-			// aapt resource value: 0x7f0900a8
-			public const int place_autocomplete_progress = 2131296424;
+			// aapt resource value: 0x7f0900ac
+			public const int place_autocomplete_prediction_primary_text = 2131296428;
 			
-			// aapt resource value: 0x7f0900a3
-			public const int place_autocomplete_search_button = 2131296419;
+			// aapt resource value: 0x7f0900ad
+			public const int place_autocomplete_prediction_secondary_text = 2131296429;
 			
-			// aapt resource value: 0x7f0900a4
-			public const int place_autocomplete_search_input = 2131296420;
+			// aapt resource value: 0x7f0900ab
+			public const int place_autocomplete_progress = 2131296427;
 			
 			// aapt resource value: 0x7f0900a6
-			public const int place_autocomplete_separator = 2131296422;
+			public const int place_autocomplete_search_button = 2131296422;
+			
+			// aapt resource value: 0x7f0900a7
+			public const int place_autocomplete_search_input = 2131296423;
+			
+			// aapt resource value: 0x7f0900a9
+			public const int place_autocomplete_separator = 2131296425;
 			
 			// aapt resource value: 0x7f090006
 			public const int progress_circular = 2131296262;
@@ -2551,6 +2557,12 @@ namespace PomocZvieratam
 			// aapt resource value: 0x7f09005f
 			public const int radio = 2131296351;
 			
+			// aapt resource value: 0x7f090086
+			public const int rbDeratizaciaDomu = 2131296390;
+			
+			// aapt resource value: 0x7f090085
+			public const int rbDeratizaciaFirmy = 2131296389;
+			
 			// aapt resource value: 0x7f090083
 			public const int rbDeratizaciaZvierat = 2131296387;
 			
@@ -2559,6 +2571,9 @@ namespace PomocZvieratam
 			
 			// aapt resource value: 0x7f090082
 			public const int rbZberUhynutychZvierat = 2131296386;
+			
+			// aapt resource value: 0x7f090084
+			public const int rgDeratizacia = 2131296388;
 			
 			// aapt resource value: 0x7f090080
 			public const int rgTypeOfAction = 2131296384;
@@ -2644,8 +2659,8 @@ namespace PomocZvieratam
 			// aapt resource value: 0x7f090050
 			public const int spacer = 2131296336;
 			
-			// aapt resource value: 0x7f090084
-			public const int spinnerAkcia = 2131296388;
+			// aapt resource value: 0x7f090087
+			public const int spinnerAkcia = 2131296391;
 			
 			// aapt resource value: 0x7f090008
 			public const int split_action_bar = 2131296264;
@@ -2665,8 +2680,8 @@ namespace PomocZvieratam
 			// aapt resource value: 0x7f09003c
 			public const int start = 2131296316;
 			
-			// aapt resource value: 0x7f090098
-			public const int status_bar_latest_event_content = 2131296408;
+			// aapt resource value: 0x7f09009b
+			public const int status_bar_latest_event_content = 2131296411;
 			
 			// aapt resource value: 0x7f090070
 			public const int submit_area = 2131296368;
@@ -2674,29 +2689,29 @@ namespace PomocZvieratam
 			// aapt resource value: 0x7f090019
 			public const int tabMode = 2131296281;
 			
-			// aapt resource value: 0x7f09008c
-			public const int tabs = 2131296396;
+			// aapt resource value: 0x7f09008f
+			public const int tabs = 2131296399;
 			
 			// aapt resource value: 0x7f09000f
 			public const int terrain = 2131296271;
 			
-			// aapt resource value: 0x7f0900a0
-			public const int text = 2131296416;
+			// aapt resource value: 0x7f0900a3
+			public const int text = 2131296419;
 			
-			// aapt resource value: 0x7f090090
-			public const int text1 = 2131296400;
+			// aapt resource value: 0x7f090093
+			public const int text1 = 2131296403;
 			
-			// aapt resource value: 0x7f09009e
-			public const int text2 = 2131296414;
+			// aapt resource value: 0x7f0900a1
+			public const int text2 = 2131296417;
 			
 			// aapt resource value: 0x7f090058
 			public const int textSpacerNoButtons = 2131296344;
 			
-			// aapt resource value: 0x7f090085
-			public const int textView1 = 2131296389;
+			// aapt resource value: 0x7f090088
+			public const int textView1 = 2131296392;
 			
-			// aapt resource value: 0x7f09009c
-			public const int time = 2131296412;
+			// aapt resource value: 0x7f09009f
+			public const int time = 2131296415;
 			
 			// aapt resource value: 0x7f09004e
 			public const int title = 2131296334;
@@ -2704,8 +2719,8 @@ namespace PomocZvieratam
 			// aapt resource value: 0x7f090053
 			public const int title_template = 2131296339;
 			
-			// aapt resource value: 0x7f09008b
-			public const int toolBar = 2131296395;
+			// aapt resource value: 0x7f09008e
+			public const int toolBar = 2131296398;
 			
 			// aapt resource value: 0x7f09003d
 			public const int top = 2131296317;
@@ -2728,8 +2743,8 @@ namespace PomocZvieratam
 			// aapt resource value: 0x7f09000a
 			public const int view_offset_helper = 2131296266;
 			
-			// aapt resource value: 0x7f09008d
-			public const int viewpager = 2131296397;
+			// aapt resource value: 0x7f090090
+			public const int viewpager = 2131296400;
 			
 			// aapt resource value: 0x7f090014
 			public const int wide = 2131296276;
@@ -3402,8 +3417,8 @@ namespace PomocZvieratam
 			// aapt resource value: 0x7f0b0002
 			public const int Base_Theme_AppCompat_Light_DialogWhenLarge = 2131427330;
 			
-			// aapt resource value: 0x7f0b0159
-			public const int Base_Theme_DesignDemo = 2131427673;
+			// aapt resource value: 0x7f0b015a
+			public const int Base_Theme_DesignDemo = 2131427674;
 			
 			// aapt resource value: 0x7f0b009b
 			public const int Base_ThemeOverlay_AppCompat = 2131427483;
@@ -3972,17 +3987,20 @@ namespace PomocZvieratam
 			// aapt resource value: 0x7f0b014d
 			public const int Theme_Design_NoActionBar = 2131427661;
 			
-			// aapt resource value: 0x7f0b0157
-			public const int Theme_DesignDemo = 2131427671;
-			
-			// aapt resource value: 0x7f0b015b
-			public const int Theme_DesignDemo_AppBarOverlay = 2131427675;
+			// aapt resource value: 0x7f0b0158
+			public const int Theme_DesignDemo = 2131427672;
 			
 			// aapt resource value: 0x7f0b015c
-			public const int Theme_DesignDemo_PopupOverlay = 2131427676;
+			public const int Theme_DesignDemo_AppBarOverlay = 2131427676;
 			
-			// aapt resource value: 0x7f0b0158
-			public const int Theme_DesignDemo2 = 2131427672;
+			// aapt resource value: 0x7f0b015d
+			public const int Theme_DesignDemo_PopupOverlay = 2131427677;
+			
+			// aapt resource value: 0x7f0b0159
+			public const int Theme_DesignDemo2 = 2131427673;
+			
+			// aapt resource value: 0x7f0b0157
+			public const int Theme_Splash = 2131427671;
 			
 			// aapt resource value: 0x7f0b00f3
 			public const int ThemeOverlay_AppCompat = 2131427571;
@@ -4209,8 +4227,8 @@ namespace PomocZvieratam
 			// aapt resource value: 0x7f0b013d
 			public const int Widget_AppCompat_Toolbar_Button_Navigation = 2131427645;
 			
-			// aapt resource value: 0x7f0b015a
-			public const int Widget_CardContent = 2131427674;
+			// aapt resource value: 0x7f0b015b
+			public const int Widget_CardContent = 2131427675;
 			
 			// aapt resource value: 0x7f0b014e
 			public const int Widget_Design_AppBarLayout = 2131427662;

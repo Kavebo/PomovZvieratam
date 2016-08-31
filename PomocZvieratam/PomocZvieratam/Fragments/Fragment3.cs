@@ -15,6 +15,7 @@ namespace PomocZvieratam.Fragments
         ArrayAdapter adapter;
         ArrayList arrayList = new ArrayList();
         RadioGroup rgTypeOfAction;
+        RadioGroup rgDeratizacia;
         RadioButton rbOdchytZvierat;
         RadioButton rbZberMrtvychZvierat;
         RadioButton rbDeratizacia;
@@ -65,6 +66,7 @@ namespace PomocZvieratam.Fragments
             View view = inflater.Inflate(Resource.Layout.Fragment3, container, false);
 
             rgTypeOfAction = view.FindViewById<RadioGroup>(Resource.Id.rgTypeOfAction);
+            rgDeratizacia = view.FindViewById<RadioGroup>(Resource.Id.rgDeratizacia);
             rbOdchytZvierat = view.FindViewById<RadioButton>(Resource.Id.rbOdchytZvierat);
             rbZberMrtvychZvierat = view.FindViewById<RadioButton>(Resource.Id.rbZberUhynutychZvierat);
             rbDeratizacia = view.FindViewById<RadioButton>(Resource.Id.rbDeratizaciaZvierat);
@@ -80,11 +82,26 @@ namespace PomocZvieratam.Fragments
             rgTypeOfAction.CheckedChange += (object sender, RadioGroup.CheckedChangeEventArgs e) =>
             {
                 RadioButton checkedRadioButton = view.FindViewById<RadioButton>(rgTypeOfAction.CheckedRadioButtonId);
+                if (checkedRadioButton.Id == 2131296387)
+                {
+                    rgDeratizacia.Visibility = ViewStates.Visible;
+                }
+                else
+                {
+                    rgDeratizacia.Visibility = ViewStates.Gone;
+                }
                 _typeOfAction = checkedRadioButton.Text;
                 iComm.SendInfo(_typeOfAction, _typeOfAnimal, _information, _phoneNumber);
                 imm.HideSoftInputFromWindow(etPopis.WindowToken, 0);
             };
-           // etPopis.AfterTextChanged += EtPopis_AfterTextChanged;
+            rgDeratizacia.CheckedChange += (object sender, RadioGroup.CheckedChangeEventArgs e) =>
+            {
+                RadioButton checkedRadioButton = view.FindViewById<RadioButton>(rgDeratizacia.CheckedRadioButtonId);
+                _typeOfAction = checkedRadioButton.Text;
+                iComm.SendInfo(_typeOfAction, _typeOfAnimal, _information, _phoneNumber);
+                imm.HideSoftInputFromWindow(etPopis.WindowToken, 0);
+            };
+            // etPopis.AfterTextChanged += EtPopis_AfterTextChanged;
             etPopis.SystemUiVisibilityChange += EtPopis_SystemUiVisibilityChange;
             //etTelephone.AfterTextChanged += EtTelephone_AfterTextChanged;
             etTelephone.SystemUiVisibilityChange += EtTelephone_SystemUiVisibilityChange;

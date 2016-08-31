@@ -24,7 +24,7 @@ using Android.Content.PM;
 
 namespace PomocZvieratam
 {
-    [Activity(Label = "ANIMAL RESCUE SK", MainLauncher = true, Icon = "@drawable/dog_icon", Theme = "@style/Theme.DesignDemo", WindowSoftInputMode = SoftInput.AdjustPan, ScreenOrientation = ScreenOrientation.Portrait)]
+    [Activity(Label = "ANIMAL RESCUE SK", MainLauncher = false, Icon = "@drawable/dog_icon", Theme = "@style/Theme.DesignDemo", WindowSoftInputMode = SoftInput.AdjustPan, ScreenOrientation = ScreenOrientation.Portrait)]
     public class MainActivity : AppCompatActivity, ICommunicator
     {
         private DrawerLayout mDrawerLayout;
@@ -73,17 +73,6 @@ namespace PomocZvieratam
                 Snackbar.Make(anchor, "Potvrdenie", Snackbar.LengthLong)
                 .SetAction("Odoslať", v =>
                 {
-                    //Sent class to database
-                    //Intent intent new Intent();
-                    //Console.WriteLine(">>>>>>>>>>> Clasa ma tieto udaje:");
-                    //Console.WriteLine(">>>>>>>>>>> TypeOfAction: " + requestedAction._typeOfAction);
-                    //Console.WriteLine(">>>>>>>>>>> TypeOfAnimal: " + requestedAction._typeOfAnimal);
-                    //Console.WriteLine(">>>>>>>>>>> Location: " + requestedAction._latitude +
-                    //    " " + requestedAction._logntitude );
-                    //Console.WriteLine(">>>>>>>>>>> Popis: " + requestedAction._infoAboutAction);
-                    //Console.WriteLine(">>>>>>>>>>> Image :" + requestedAction._imageFile.Length);
-
-
                     if (IsInternetAvailable())
                     {
                         if (requestedAction._logntitude == null || requestedAction._latitude == null)
@@ -144,7 +133,7 @@ namespace PomocZvieratam
                 Ping myPing = new Ping();
                 string host = "google.com";
                 byte[] buffer = new byte[32];
-                int timeout = 1000;
+                int timeout = 500;
                 PingOptions pingOptions = new PingOptions();
                 PingReply reply = myPing.Send(host, timeout, buffer, pingOptions);
                 return true;
@@ -160,10 +149,7 @@ namespace PomocZvieratam
         {
             RunOnUiThread(() =>
             {
-                //string id = Encoding.UTF8.GetString(e.Result);
-                int newID = 0;
-                //int.TryParse(id, out newID);
-                //Console.WriteLine(">>>>>>>>>>>>>>>>>>> Message som MYSQL: " + id);
+                requestedAction._infoAboutAction = "";
                 progressDialog.Dismiss();
 
             });

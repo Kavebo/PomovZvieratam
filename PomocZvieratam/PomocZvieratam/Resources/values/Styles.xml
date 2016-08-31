@@ -1,5 +1,9 @@
 ﻿<resources>
-
+  <style name ="Theme.Splash" parent ="android:Theme">
+    <item name= "android:windowBackground">@drawable/splashScreen2</item>
+    <item name ="android:colorPrimary">#FFFFFF</item>
+    <item name ="android:windowNoTitle">true</item>
+  </style>
   <style name="Theme.DesignDemo" parent="Base.Theme.DesignDemo">
   </style>
 

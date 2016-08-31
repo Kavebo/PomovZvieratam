@@ -21,7 +21,13 @@ class RequestedAction
                     typAkcie = "Odchyt";
                     break;
                 case "Deratizácia":
-                    typAkcie = "Deretizacia";
+                    typAkcie = "Deratizacia Firmy";
+                    break;
+                case "Firma":
+                    typAkcie = "Deratizacia Firmy";
+                    break;
+                case "Dom/Byt":
+                    typAkcie = "Deratizacia Domu";
                     break;
 
                 default:
