@@ -10,11 +10,4 @@
         android:layout_height="match_parent"
         android:src="@drawable/dog1"
         android:scaleType="centerCrop" />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ANIMAL RESCUE SK"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="#000"
-        android:layout_gravity="bottom|center" />
 </FrameLayout>

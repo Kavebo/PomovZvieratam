@@ -78,6 +78,7 @@ namespace PomocZvieratam.Fragments
             spinnerAction.SetSelection(0);
             spinnerAction.Adapter = adapter;
             spinnerAction.ItemSelected += SpinnerAction_ItemSelected;
+            spinnerAction.ContextClick += SpinnerAction_ContextClick;
 
             rgTypeOfAction.CheckedChange += (object sender, RadioGroup.CheckedChangeEventArgs e) =>
             {
@@ -101,26 +102,33 @@ namespace PomocZvieratam.Fragments
                 iComm.SendInfo(_typeOfAction, _typeOfAnimal, _information, _phoneNumber);
                 imm.HideSoftInputFromWindow(etPopis.WindowToken, 0);
             };
-            // etPopis.AfterTextChanged += EtPopis_AfterTextChanged;
-            etPopis.SystemUiVisibilityChange += EtPopis_SystemUiVisibilityChange;
+
+            // etPopis.SystemUiVisibilityChange += EtPopis_SystemUiVisibilityChange;
+            etPopis.TextChanged += EtPopis_TextChanged;
             //etTelephone.AfterTextChanged += EtTelephone_AfterTextChanged;
-            etTelephone.SystemUiVisibilityChange += EtTelephone_SystemUiVisibilityChange;
+            etTelephone.TextChanged += EtTelephone_TextChanged;
 
             imm = (InputMethodManager)Activity.GetSystemService(Context.InputMethodService);
             return view;
         }
 
-        private void EtPopis_SystemUiVisibilityChange(object sender, View.SystemUiVisibilityChangeEventArgs e)
+        private void EtTelephone_TextChanged(object sender, Android.Text.TextChangedEventArgs e)
         {
             _phoneNumber = etTelephone.Text;
             iComm.SendInfo(_typeOfAction, _typeOfAnimal, _information, _phoneNumber);
         }
 
-        private void EtTelephone_SystemUiVisibilityChange(object sender, View.SystemUiVisibilityChangeEventArgs e)
+        private void EtPopis_TextChanged(object sender, Android.Text.TextChangedEventArgs e)
         {
             _information = etPopis.Text;
             iComm.SendInfo(_typeOfAction, _typeOfAnimal, _information, _phoneNumber);
         }
+
+        private void SpinnerAction_ContextClick(object sender, View.ContextClickEventArgs e)
+        {
+            imm.HideSoftInputFromWindow(etPopis.WindowToken, 0);
+        }
+       
         private void SpinnerAction_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
         {
             //Toast.MakeText(Context, arrayList[e.Position].ToString(), ToastLength.Short).Show();
@@ -128,6 +136,7 @@ namespace PomocZvieratam.Fragments
             iComm.SendInfo(_typeOfAction, _typeOfAnimal, _information, _phoneNumber);         // Send info to class when something in spinner is selected
             imm.HideSoftInputFromWindow(etPopis.WindowToken, 0);                //Hide keyboard when something in spinner is selected
         }
+        
 
 
     }

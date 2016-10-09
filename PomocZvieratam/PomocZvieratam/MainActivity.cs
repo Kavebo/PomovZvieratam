@@ -86,7 +86,7 @@ namespace PomocZvieratam
                         else
                         {
                             WebClient client = new WebClient();
-                            Uri uri = new Uri("http://myprestage.euweb.cz/CreateAction.php");
+                            Uri uri = new Uri("http://animalrescue.koled.sk/CreateAction.php");
                             //Uri uri = new Uri("http://127.0.0.1/CreateAction.php");
                             NameValueCollection parameters = new NameValueCollection();
 
@@ -114,17 +114,17 @@ namespace PomocZvieratam
             };
 
 
-            var uiOptions = SystemUiFlags.HideNavigation | SystemUiFlags.Immersive | SystemUiFlags.Fullscreen;
-            Window.DecorView.SystemUiVisibility = (StatusBarVisibility)uiOptions;
+            //var uiOptions = SystemUiFlags.HideNavigation | SystemUiFlags.Immersive | SystemUiFlags.Fullscreen;
+            //Window.DecorView.SystemUiVisibility = (StatusBarVisibility)uiOptions;
 
         }
-        
-        public override void OnUserInteraction()
-        {
-            base.OnUserInteraction();
-            var uiOptions = SystemUiFlags.HideNavigation | SystemUiFlags.Immersive |SystemUiFlags.Fullscreen;
-            Window.DecorView.SystemUiVisibility = (StatusBarVisibility)uiOptions;
-        }
+        // Hide navbar and icons
+        //public override void OnUserInteraction()
+        //{
+        //    base.OnUserInteraction();
+        //    var uiOptions = SystemUiFlags.HideNavigation | SystemUiFlags.Immersive |SystemUiFlags.Fullscreen;
+        //    Window.DecorView.SystemUiVisibility = (StatusBarVisibility)uiOptions;
+        //}
         //************************************ Function to find out if internet is vailable ****************************
         public bool IsInternetAvailable()
         {
@@ -149,7 +149,7 @@ namespace PomocZvieratam
         {
             RunOnUiThread(() =>
             {
-                requestedAction._infoAboutAction = "";
+                //requestedAction._infoAboutAction = "";
                 progressDialog.Dismiss();
 
             });
@@ -197,14 +197,18 @@ namespace PomocZvieratam
                     case Resource.Id.nav_home:
                         Toast.MakeText(this, "Popis!", ToastLength.Short).Show();
                         viewPager.SetCurrentItem(0, true);
+                        e.MenuItem.SetChecked(false);
+                        //e.MenuItem.Icon.
                         return;
                     case Resource.Id.nav_messages:
                         Toast.MakeText(this, "Poloha!", ToastLength.Short).Show();
                         viewPager.SetCurrentItem(1, true);
+                        e.MenuItem.SetChecked(false);
                         return;
                     case Resource.Id.nav_friends:
-                        Toast.MakeText(this, "Fotka!", ToastLength.Short).Show();
+                        Toast.MakeText(this, "Fotografia!", ToastLength.Short).Show();
                         viewPager.SetCurrentItem(2, true);
+                        e.MenuItem.SetChecked(false);
                         return;
                     case Resource.Id.nav_mail:
                         Intent email = new Intent(Intent.ActionSend);
@@ -212,12 +216,14 @@ namespace PomocZvieratam
                         email.PutExtra(Intent.ExtraSubject, "Pomoc Zvieratam");
                         email.PutExtra(Intent.ExtraText, "Text...");
                         email.SetType("text/email");
+                        e.MenuItem.SetChecked(false);
                         StartActivity(email);
                         return;
                     case Resource.Id.nav_about:
                         Android.Support.V7.App.AlertDialog.Builder alert = new Android.Support.V7.App.AlertDialog.Builder(this);
                         alert.SetTitle("Info");
                         alert.SetMessage("Aplikácia vytvorená pre firmu \nTD, s.r.o Košice. \nhttp://www.odchytzvierat.eu\n\nVytvoril v roku 2016 Bobo. ");
+                        e.MenuItem.SetChecked(false);
                         alert.SetPositiveButton("OK", (senderAlert, args) => {
                             // write your own set of instructions
                         });
