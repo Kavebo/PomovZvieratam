@@ -138,7 +138,7 @@ namespace PomocZvieratam
                 PingReply reply = myPing.Send(host, timeout, buffer, pingOptions);
                 return true;
             }
-            catch (System.Exception e)
+            catch 
             {
                 Toast.MakeText(this, "Internet nie je k dispozícií", ToastLength.Short).Show();
                 return false;
