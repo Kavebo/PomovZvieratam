@@ -52,11 +52,11 @@ namespace PomocZvieratam.Fragments
             base.OnActivityCreated(savedInstanceState);
             iComm = (ICommunicator)Activity;
         }
-        //public override void OnPause()
-        //{
-        //    base.OnPause();
-        //    imm.HideSoftInputFromWindow(etPopis.WindowToken, 0);
-        //}
+        public override void OnPause()
+        {
+            base.OnPause();
+            imm.HideSoftInputFromWindow(etPopis.WindowToken, 0);
+        }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
@@ -78,7 +78,6 @@ namespace PomocZvieratam.Fragments
             spinnerAction.SetSelection(0);
             spinnerAction.Adapter = adapter;
             spinnerAction.ItemSelected += SpinnerAction_ItemSelected;
-           
 
             rgTypeOfAction.CheckedChange += (object sender, RadioGroup.CheckedChangeEventArgs e) =>
             {
@@ -102,32 +101,33 @@ namespace PomocZvieratam.Fragments
                 iComm.SendInfo(_typeOfAction, _typeOfAnimal, _information, _phoneNumber);
                 imm.HideSoftInputFromWindow(etPopis.WindowToken, 0);
             };
-            etPopis.TextChanged += EtPopis_TextChanged;
-            etTelephone.TextChanged += EtTelephone_TextChanged;
+            // etPopis.AfterTextChanged += EtPopis_AfterTextChanged;
+            etPopis.SystemUiVisibilityChange += EtPopis_SystemUiVisibilityChange;
+            //etTelephone.AfterTextChanged += EtTelephone_AfterTextChanged;
+            etTelephone.SystemUiVisibilityChange += EtTelephone_SystemUiVisibilityChange;
 
             imm = (InputMethodManager)Activity.GetSystemService(Context.InputMethodService);
             return view;
         }
 
-        private void EtTelephone_TextChanged(object sender, Android.Text.TextChangedEventArgs e)
+        private void EtPopis_SystemUiVisibilityChange(object sender, View.SystemUiVisibilityChangeEventArgs e)
         {
             _phoneNumber = etTelephone.Text;
             iComm.SendInfo(_typeOfAction, _typeOfAnimal, _information, _phoneNumber);
         }
 
-        private void EtPopis_TextChanged(object sender, Android.Text.TextChangedEventArgs e)
+        private void EtTelephone_SystemUiVisibilityChange(object sender, View.SystemUiVisibilityChangeEventArgs e)
         {
             _information = etPopis.Text;
             iComm.SendInfo(_typeOfAction, _typeOfAnimal, _information, _phoneNumber);
         }
-
         private void SpinnerAction_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
         {
+            //Toast.MakeText(Context, arrayList[e.Position].ToString(), ToastLength.Short).Show();
             _typeOfAnimal = arrayList[e.Position].ToString();
             iComm.SendInfo(_typeOfAction, _typeOfAnimal, _information, _phoneNumber);         // Send info to class when something in spinner is selected
             imm.HideSoftInputFromWindow(etPopis.WindowToken, 0);                //Hide keyboard when something in spinner is selected
         }
-        
 
 
     }
